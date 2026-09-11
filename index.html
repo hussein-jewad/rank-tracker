@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rank Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #1b1f2a;
+    --bg-raised: #222736;
+    --line: #333a4d;
+    --ink: #ece8e0;
+    --ink-dim: #9298ab;
+    --amber: #e8a33d;
+    --teal: #4fa8a0;
+    --red: #c4695a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 100px; }
+
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 34px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .stats { color: var(--ink-dim); font-size: 14px; }
+  .stats strong { color: var(--ink); font-weight: 600; }
+
+  /* Shared banner */
+  .shared-banner {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-raised);
+    border: 1px solid var(--amber);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .shared-banner a { color: var(--amber); text-decoration: none; font-weight: 500; white-space: nowrap; }
+  .shared-banner a:hover { text-decoration: underline; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+
+  .tab {
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 4px;
+    margin-right: 22px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    position: relative;
+    top: 1px;
+  }
+  .tab.active { color: var(--ink); border-bottom-color: var(--amber); }
+
+  /* Collapsible sections */
+  .section {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .section.collapsed .section-body { display: none; }
+
+  .section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-toggle .label { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; }
+  .section-toggle .sub { font-size: 12.5px; color: var(--ink-dim); font-weight: 400; margin-top: 2px; }
+  .section-toggle .chev { color: var(--ink-dim); transition: transform 0.15s ease; font-size: 13px; }
+  .section:not(.collapsed) .chev { transform: rotate(180deg); }
+  .section-body { margin-top: 16px; }
+
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  .field.hidden { display: none; }
+
+  label { font-size: 12.5px; color: var(--ink-dim); }
+
+  input, select, textarea {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    color: var(--ink);
+    padding: 9px 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amber); }
+  textarea { resize: vertical; min-height: 130px; font-family: 'Inter', sans-serif; }
+
+  .cover-row { display: flex; gap: 8px; }
+  .cover-row input { flex: 1; }
+  .cover-preview {
+    max-height: 90px;
+    border-radius: 4px;
+    margin-top: 8px;
+    display: none;
+    border: 1px solid var(--line);
+  }
+
+  .form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 9px 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--amber); color: #1b1f2a; border-color: var(--amber); }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-secondary { background: transparent; color: var(--teal); border-color: var(--teal); }
+  .btn-secondary:hover { background: rgba(79,168,160,0.1); }
+  .btn-secondary:disabled { opacity: 0.5; cursor: default; }
+  .btn-ghost { background: transparent; color: var(--ink-dim); border-color: var(--line); }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
+
+  .hint { font-size: 12.5px; color: var(--ink-dim); margin-top: 8px; line-height: 1.5; }
+  .hint a { color: var(--teal); }
+
+  .controls-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+  }
+
+  /* List */
+  .list { display: flex; flex-direction: column; margin-top: 4px; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 40px 32px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:first-child { border-top: 1px solid var(--line); }
+
+  .cover-thumb {
+    width: 40px;
+    height: 56px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .cover-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .rank-badge {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--amber);
+    text-align: center;
+  }
+
+  .item-main .title { font-size: 16px; font-weight: 500; }
+  .item-main .meta { font-size: 13px; color: var(--ink-dim); margin-top: 2px; }
+  .item-main .notes { font-size: 13.5px; color: var(--ink-dim); margin-top: 6px; line-height: 1.4; }
+
+  .row-actions { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-size: 13px;
+    padding: 4px 7px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .icon-btn:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
+  .icon-btn:disabled { opacity: 0.25; cursor: default; }
+  .icon-btn:disabled:hover { background: none; }
+  .icon-btn.confirm-danger { color: var(--red); font-weight: 600; }
+
+  .empty { text-align: center; padding: 60px 20px; color: var(--ink-dim); }
+  .empty .big { font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    z-index: 50;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Modals (comparison + share) */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,12,18,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .modal {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-progress { font-size: 12.5px; color: var(--ink-dim); margin-bottom: 14px; }
+  .modal-prompt { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin-bottom: 20px; }
+  .modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+
+  .modal-option {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 16px;
+    border-radius: 6px;
+    font-size: 15.5px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+  }
+  .modal-option:hover { border-color: var(--amber); background: rgba(232,163,61,0.08); }
+
+  .share-link-input {
+    margin-bottom: 14px;
+    font-size: 13px;
+    text-align: left;
+  }
+  .share-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
+
+  @media (max-width: 520px) {
+    .fields { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Rank Tracker</h1>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="shared-banner" id="sharedBanner">
+    <span id="sharedBannerLabel"></span>
+    <a href="#" id="exitShared">Open your own tracker</a>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="section collapsed" id="settingsSection">
+    <div class="section-toggle" id="settingsToggle">
+      <div>
+        <div class="label">Settings</div>
+        <div class="sub">Add a free TMDb API key to auto-fetch movie &amp; series covers</div>
+      </div>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="fields">
+        <div class="field full">
+          <label for="tmdb-key">TMDb API key</label>
+          <input type="text" id="tmdb-key" placeholder="Paste your key here">
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" id="saveSettings">Save</button>
+        </div>
+      </div>
+      <div class="hint">Free at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org → Settings → API</a>. Games don't have a matching database, so covers there are always manual.</div>
+    </div>
+  </div>
+
+  <div class="section collapsed" id="addSection">
+    <div class="section-toggle" id="addToggle">
+      <div>
+        <div class="label" id="addLabel">Add</div>
+        <div class="sub">Add to the bottom, or rank it by comparison</div>
+      </div>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="fields">
+        <div class="field full">
+          <label for="f-title">Title</label>
+          <input type="text" id="f-title">
+        </div>
+        <div class="field" id="f-platform-field">
+          <label for="f-platform">Platform (optional)</label>
+          <input type="text" id="f-platform" placeholder="e.g. PC">
+        </div>
+        <div class="field full">
+          <label for="f-cover">Cover image URL (optional)</label>
+          <div class="cover-row">
+            <input type="text" id="f-cover" placeholder="https://...">
+            <button type="button" class="btn-secondary" id="fetchCoverBtn">Auto-fetch</button>
+          </div>
+          <img id="coverPreview" class="cover-preview">
+        </div>
+        <div class="field full">
+          <label for="f-notes">Notes (optional)</label>
+          <textarea id="f-notes" style="min-height: 50px;"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-ghost" id="cancelAdd">Cancel</button>
+          <button class="btn-secondary" id="addToBottom">Add to bottom</button>
+          <button class="btn-primary" id="addByCompare">Add by comparison</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section collapsed" id="bulkSection">
+    <div class="section-toggle" id="bulkToggle">
+      <div>
+        <div class="label">Bulk import &amp; guided sort</div>
+        <div class="sub">Paste a list, then rank it by answering quick comparisons</div>
+      </div>
+      <span class="chev">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="fields">
+        <div class="field full">
+          <label for="bulk-text">One title per line (numbers are fine, they're ignored)</label>
+          <textarea id="bulk-text" placeholder="rush&#10;saving private ryan&#10;alien&#10;..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn-ghost" id="cancelBulk">Cancel</button>
+          <button class="btn-primary" id="startBulk">Start guided sort</button>
+        </div>
+      </div>
+      <div class="hint">This runs a full guided sort, so if this tab already has ranked items, they'll be included in the comparisons too — best used to build a list from scratch. Covers fetch automatically afterward if you've added a TMDb key.</div>
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <button class="btn-secondary" id="shareBtn">Share this list</button>
+  </div>
+
+  <div class="list" id="list"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-progress" id="modalProgress"></div>
+    <div class="modal-prompt">Which do you prefer?</div>
+    <div class="modal-options">
+      <button class="modal-option" id="modalOptA"></button>
+      <button class="modal-option" id="modalOptB"></button>
+    </div>
+    <button class="btn-ghost" id="modalCancel">Cancel</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="shareOverlay">
+  <div class="modal">
+    <div class="modal-prompt">Share link</div>
+    <input type="text" class="share-link-input" id="shareLinkInput" readonly>
+    <div class="share-actions">
+      <button class="btn-primary" id="copyShareLink">Copy link</button>
+      <button class="btn-ghost" id="closeShare">Close</button>
+    </div>
+    <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now, not any future changes you make.</div>
+  </div>
+</div>
+
+<script>
+const TABS = [
+  { key: 'games', label: 'Games', hasPlatform: true },
+  { key: 'movies', label: 'Movies', hasPlatform: false },
+  { key: 'series', label: 'Series', hasPlatform: false },
+];
+
+let activeTab = 'games';
+let lists = { games: [], movies: [], series: [] };
+let editingId = null;
+let settings = { tmdbKey: '' };
+const coverFetchAttempted = new Set();
+
+// --- comparison engine state ---
+let activeGen = null;
+let activeGenType = null;
+let activeGenContext = {};
+let compCount = 0;
+let compEstimate = 0;
+
+// --- delete confirm state ---
+let pendingDeleteId = null;
+let pendingDeleteTimer = null;
+
+const els = {};
+['stats','tabs','settingsSection','settingsToggle','tmdb-key','saveSettings',
+ 'addSection','addToggle','addLabel','cancelAdd','addToBottom','addByCompare',
+ 'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-notes',
+ 'bulkSection','bulkToggle','cancelBulk','startBulk','bulk-text',
+ 'shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
+ 'sharedBanner','sharedBannerLabel','exitShared',
+ 'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
+ .forEach(id => els[id] = document.getElementById(id));
+
+function currentTabDef() { return TABS.find(t => t.key === activeTab); }
+function storageKey(tab) { return 'ranktracker:' + tab; }
+
+function loadAll() {
+  TABS.forEach(t => {
+    try {
+      const raw = localStorage.getItem(storageKey(t.key));
+      lists[t.key] = raw ? JSON.parse(raw) : [];
+    } catch (e) { lists[t.key] = []; }
+  });
+}
+
+function saveTab(tabKey) {
+  try { localStorage.setItem(storageKey(tabKey), JSON.stringify(lists[tabKey])); }
+  catch (e) { showToast('Could not save — storage may be full'); }
+}
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem('ranktracker:settings');
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '' };
+  } catch (e) { settings = { tmdbKey: '' }; }
+  els['tmdb-key'].value = settings.tmdbKey || '';
+}
+
+function saveSettingsFn() {
+  settings.tmdbKey = els['tmdb-key'].value.trim();
+  try {
+    localStorage.setItem('ranktracker:settings', JSON.stringify(settings));
+    showToast('Settings saved');
+  } catch (e) { showToast('Could not save settings'); }
+  els.settingsSection.classList.add('collapsed');
+  renderCoverControls();
+}
+
+function uid() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
+
+function showToast(msg) {
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  setTimeout(() => els.toast.classList.remove('show'), 1800);
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+/* ---------- TMDb covers ---------- */
+async function fetchTmdbCover(title, mediaType) {
+  const key = settings.tmdbKey;
+  if (!key) return null;
+  const endpoint = mediaType === 'series' ? 'tv' : 'movie';
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/${endpoint}?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(title)}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const first = data.results && data.results[0];
+    if (first && first.poster_path) return 'https://image.tmdb.org/t/p/w342' + first.poster_path;
+  } catch (e) { /* network error, ignore */ }
+  return null;
+}
+
+async function backfillCovers(tabKey) {
+  if (tabKey === 'games' || !settings.tmdbKey) return;
+  for (const item of lists[tabKey]) {
+    if (!item.cover && !coverFetchAttempted.has(item.id)) {
+      coverFetchAttempted.add(item.id);
+      const url = await fetchTmdbCover(item.title, tabKey);
+      if (url) { item.cover = url; saveTab(tabKey); render(); }
+    }
+  }
+}
+
+function updateCoverPreview() {
+  const val = els['f-cover'].value.trim();
+  if (val) { els.coverPreview.src = val; els.coverPreview.style.display = 'block'; }
+  else { els.coverPreview.style.display = 'none'; }
+}
+els['f-cover'].addEventListener('input', updateCoverPreview);
+els.coverPreview.addEventListener('error', () => { els.coverPreview.style.display = 'none'; });
+
+els.fetchCoverBtn.addEventListener('click', async () => {
+  const title = els['f-title'].value.trim();
+  if (!title) { els['f-title'].focus(); showToast('Enter a title first'); return; }
+  els.fetchCoverBtn.disabled = true;
+  els.fetchCoverBtn.textContent = 'Fetching...';
+  const url = await fetchTmdbCover(title, activeTab);
+  els.fetchCoverBtn.disabled = false;
+  els.fetchCoverBtn.textContent = 'Auto-fetch';
+  if (url) {
+    els['f-cover'].value = url;
+    updateCoverPreview();
+    showToast('Cover found — you can still edit the URL');
+  } else {
+    showToast('No cover found — try pasting a URL manually');
+  }
+});
+
+/* ---------- Tabs ---------- */
+function renderTabs() {
+  els.tabs.innerHTML = '';
+  TABS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (activeTab === t.key ? ' active' : '');
+    btn.textContent = t.label;
+    btn.addEventListener('click', () => {
+      activeTab = t.key;
+      resetForm();
+      render();
+      backfillCovers(activeTab);
+    });
+    els.tabs.appendChild(btn);
+  });
+}
+
+/* ---------- Settings toggle ---------- */
+els.settingsToggle.addEventListener('click', () => els.settingsSection.classList.toggle('collapsed'));
+els.saveSettings.addEventListener('click', saveSettingsFn);
+
+/* ---------- Add form ---------- */
+els.addToggle.addEventListener('click', () => {
+  els.addSection.classList.toggle('collapsed');
+  if (!els.addSection.classList.contains('collapsed')) els['f-title'].focus();
+});
+els.cancelAdd.addEventListener('click', () => { resetForm(); els.addSection.classList.add('collapsed'); });
+
+els.bulkToggle.addEventListener('click', () => els.bulkSection.classList.toggle('collapsed'));
+els.cancelBulk.addEventListener('click', () => {
+  els['bulk-text'].value = '';
+  els.bulkSection.classList.add('collapsed');
+});
+
+function resetForm() {
+  editingId = null;
+  els['f-title'].value = '';
+  els['f-platform'].value = '';
+  els['f-cover'].value = '';
+  els['f-notes'].value = '';
+  updateCoverPreview();
+  els.addByCompare.style.display = '';
+  els.addToBottom.textContent = 'Add to bottom';
+  els.addLabel.textContent = 'Add';
+}
+
+function readForm() {
+  return {
+    title: els['f-title'].value.trim(),
+    platform: els['f-platform'].value.trim(),
+    cover: els['f-cover'].value.trim(),
+    notes: els['f-notes'].value.trim(),
+  };
+}
+
+els.addToBottom.addEventListener('click', () => {
+  const data = readForm();
+  if (!data.title) { els['f-title'].focus(); return; }
+  if (editingId) {
+    const item = lists[activeTab].find(g => g.id === editingId);
+    Object.assign(item, data);
+    saveTab(activeTab);
+    showToast('Updated ' + data.title);
+  } else {
+    lists[activeTab].push({ id: uid(), ...data });
+    saveTab(activeTab);
+    showToast('Added ' + data.title);
+  }
+  resetForm();
+  els.addSection.classList.add('collapsed');
+  render();
+  backfillCovers(activeTab);
+});
+
+els.addByCompare.addEventListener('click', () => {
+  const data = readForm();
+  if (!data.title) { els['f-title'].focus(); return; }
+  const item = { id: uid(), ...data };
+  resetForm();
+  els.addSection.classList.add('collapsed');
+  startInsertFlow(activeTab, item);
+});
+
+function editItem(id) {
+  const item = lists[activeTab].find(g => g.id === id);
+  if (!item) return;
+  editingId = id;
+  els['f-title'].value = item.title;
+  els['f-platform'].value = item.platform || '';
+  els['f-cover'].value = item.cover || '';
+  els['f-notes'].value = item.notes || '';
+  updateCoverPreview();
+  els.addByCompare.style.display = 'none';
+  els.addToBottom.textContent = 'Save changes';
+  els.addLabel.textContent = 'Edit';
+  els.addSection.classList.remove('collapsed');
+  els['f-title'].focus();
+}
+
+function deleteItem(id, btn) {
+  const item = lists[activeTab].find(g => g.id === id);
+  if (!item) return;
+
+  if (pendingDeleteId !== id) {
+    pendingDeleteId = id;
+    clearTimeout(pendingDeleteTimer);
+    if (btn) { btn.textContent = 'Confirm?'; btn.classList.add('confirm-danger'); }
+    pendingDeleteTimer = setTimeout(() => {
+      pendingDeleteId = null;
+      if (btn) { btn.textContent = 'Delete'; btn.classList.remove('confirm-danger'); }
+    }, 3000);
+    return;
+  }
+
+  clearTimeout(pendingDeleteTimer);
+  pendingDeleteId = null;
+  lists[activeTab] = lists[activeTab].filter(g => g.id !== id);
+  saveTab(activeTab);
+  render();
+  showToast('Removed ' + item.title);
+}
+
+function moveItem(id, dir) {
+  const arr = lists[activeTab];
+  const idx = arr.findIndex(g => g.id === id);
+  const swapWith = idx + dir;
+  if (idx < 0 || swapWith < 0 || swapWith >= arr.length) return;
+  [arr[idx], arr[swapWith]] = [arr[swapWith], arr[idx]];
+  saveTab(activeTab);
+  render();
+}
+
+function repositionByCompare(id) {
+  const arr = lists[activeTab];
+  const item = arr.find(g => g.id === id);
+  if (!item) return;
+  const without = arr.filter(g => g.id !== id);
+  if (without.length === 0) { showToast('Nothing to compare against'); return; }
+  activeGenType = 'reposition';
+  activeGenContext = { tabKey: activeTab, item, without };
+  activeGen = binaryInsertGen(without, item);
+  compCount = 0;
+  compEstimate = Math.max(1, Math.ceil(Math.log2(without.length + 1)));
+  stepGen();
+}
+
+/* ---------- Bulk import ---------- */
+els.startBulk.addEventListener('click', () => {
+  const raw = els['bulk-text'].value;
+  const lines = raw.split('\n')
+    .map(l => l.replace(/^\s*\d+[\.\)]?\s*/, '').trim())
+    .filter(l => l.length > 0);
+  if (lines.length === 0) return;
+  const existing = lists[activeTab];
+  const proceed = () => {
+    const newItems = lines.map(t => ({ id: uid(), title: t, platform: '', cover: '', notes: '' }));
+    const combined = existing.concat(newItems);
+    els['bulk-text'].value = '';
+    els.bulkSection.classList.add('collapsed');
+    activeGenType = 'sort';
+    activeGenContext = { tabKey: activeTab };
+    activeGen = mergeSortGen(combined);
+    compCount = 0;
+    const n = combined.length;
+    compEstimate = Math.max(1, Math.round(n * Math.log2(n || 1)));
+    stepGen();
+  };
+  if (existing.length > 0) {
+    if (confirm('This tab already has ' + existing.length + ' ranked item(s). They\'ll be included in the comparisons alongside the ' + lines.length + ' new ones. Continue?')) proceed();
+  } else {
+    proceed();
+  }
+});
+
+/* ---------- Comparison engines (generators) ---------- */
+function* binaryInsertGen(sortedItems, newItem) {
+  let lo = 0, hi = sortedItems.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    const preferNew = yield { a: newItem, b: sortedItems[mid] };
+    if (preferNew) hi = mid; else lo = mid + 1;
+  }
+  return lo;
+}
+
+function* mergeGen(left, right) {
+  const result = [];
+  let i = 0, j = 0;
+  while (i < left.length && j < right.length) {
+    const preferLeft = yield { a: left[i], b: right[j] };
+    if (preferLeft) result.push(left[i++]); else result.push(right[j++]);
+  }
+  while (i < left.length) result.push(left[i++]);
+  while (j < right.length) result.push(right[j++]);
+  return result;
+}
+
+function* mergeSortGen(arr) {
+  if (arr.length <= 1) return arr;
+  const mid = arr.length >> 1;
+  const left = yield* mergeSortGen(arr.slice(0, mid));
+  const right = yield* mergeSortGen(arr.slice(mid));
+  return yield* mergeGen(left, right);
+}
+
+function startInsertFlow(tabKey, newItem) {
+  const list = lists[tabKey];
+  if (list.length === 0) {
+    list.push(newItem);
+    saveTab(tabKey);
+    render();
+    backfillCovers(tabKey);
+    showToast('Added ' + newItem.title);
+    return;
+  }
+  activeGenType = 'insert';
+  activeGenContext = { tabKey, newItem };
+  activeGen = binaryInsertGen(list, newItem);
+  compCount = 0;
+  compEstimate = Math.max(1, Math.ceil(Math.log2(list.length + 1)));
+  stepGen();
+}
+
+function stepGen(sendValue) {
+  let res;
+  try { res = activeGen.next(sendValue); }
+  catch (e) { closeModal(); activeGen = null; return; }
+  if (res.done) { finishGen(res.value); return; }
+  compCount++;
+  showModal(res.value.a, res.value.b);
+}
+
+function finishGen(value) {
+  let tabKeyToBackfill = null;
+  if (activeGenType === 'insert') {
+    const { tabKey, newItem } = activeGenContext;
+    lists[tabKey].splice(value, 0, newItem);
+    saveTab(tabKey);
+    showToast('Added ' + newItem.title);
+    tabKeyToBackfill = tabKey;
+  } else if (activeGenType === 'sort') {
+    const { tabKey } = activeGenContext;
+    lists[tabKey] = value;
+    saveTab(tabKey);
+    showToast('Ranking updated');
+    tabKeyToBackfill = tabKey;
+  } else if (activeGenType === 'reposition') {
+    const { tabKey, item, without } = activeGenContext;
+    const arr = without.slice();
+    arr.splice(value, 0, item);
+    lists[tabKey] = arr;
+    saveTab(tabKey);
+    showToast('Repositioned ' + item.title);
+  }
+  activeGen = null; activeGenType = null; activeGenContext = {};
+  closeModal();
+  render();
+  if (tabKeyToBackfill) backfillCovers(tabKeyToBackfill);
+}
+
+function showModal(a, b) {
+  els.modalOptA.textContent = a.title;
+  els.modalOptB.textContent = b.title;
+  els.modalProgress.textContent = 'Comparison ' + compCount + ' of ~' + compEstimate;
+  els.modalOverlay.classList.add('show');
+}
+function closeModal() { els.modalOverlay.classList.remove('show'); }
+
+els.modalOptA.addEventListener('click', () => stepGen(true));
+els.modalOptB.addEventListener('click', () => stepGen(false));
+els.modalCancel.addEventListener('click', () => {
+  activeGen = null; activeGenType = null; activeGenContext = {};
+  closeModal();
+});
+
+/* ---------- Share ---------- */
+function buildShareLink(tabKey) {
+  const items = lists[tabKey].map(it => ({ t: it.title, p: it.platform || '', c: it.cover || '', n: it.notes || '' }));
+  const payload = JSON.stringify({ tab: tabKey, items });
+  const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(payload))));
+  return location.origin + location.pathname + '#share=' + encoded;
+}
+
+els.shareBtn.addEventListener('click', () => {
+  const link = buildShareLink(activeTab);
+  els.shareLinkInput.value = link;
+  els.shareOverlay.classList.add('show');
+  els.shareLinkInput.focus();
+  els.shareLinkInput.select();
+});
+els.closeShare.addEventListener('click', () => els.shareOverlay.classList.remove('show'));
+els.copyShareLink.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(els.shareLinkInput.value);
+    showToast('Link copied');
+  } catch (e) {
+    els.shareLinkInput.select();
+    showToast('Select the link above and copy manually');
+  }
+});
+
+function checkSharedMode() {
+  const hash = location.hash;
+  if (hash.startsWith('#share=')) {
+    try {
+      const encoded = decodeURIComponent(hash.slice(7));
+      const payload = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+      renderSharedView(payload);
+      return true;
+    } catch (e) { /* fall through to normal mode */ }
+  }
+  return false;
+}
+
+function renderSharedView(payload) {
+  const tabDef = TABS.find(t => t.key === payload.tab) || { label: payload.tab };
+  els.sharedBanner.style.display = 'flex';
+  els.sharedBannerLabel.textContent = 'Shared ' + tabDef.label + ' ranking (read-only)';
+  els.tabs.style.display = 'none';
+  els.settingsSection.style.display = 'none';
+  els.addSection.style.display = 'none';
+  els.bulkSection.style.display = 'none';
+  els.shareBtn.style.display = 'none';
+  els.stats.textContent = payload.items.length + ' ranked';
+
+  els.list.innerHTML = '';
+  if (!payload.items.length) {
+    els.list.innerHTML = `<div class="empty"><div class="big">Nothing here</div></div>`;
+    return;
+  }
+  payload.items.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const metaParts = [];
+    if (item.p) metaParts.push(item.p);
+    row.innerHTML = `
+      <div class="cover-thumb">${item.c ? `<img src="${escapeHtml(item.c)}" alt="" onerror="this.style.display='none'">` : ''}</div>
+      <div class="rank-badge">${idx + 1}</div>
+      <div class="item-main">
+        <div class="title">${escapeHtml(item.t)}</div>
+        ${metaParts.length ? `<div class="meta">${escapeHtml(metaParts.join(' · '))}</div>` : ''}
+        ${item.n ? `<div class="notes">${escapeHtml(item.n)}</div>` : ''}
+      </div>
+      <div></div>
+    `;
+    els.list.appendChild(row);
+  });
+}
+
+els.exitShared.addEventListener('click', (e) => {
+  e.preventDefault();
+  location.hash = '';
+  location.reload();
+});
+
+/* ---------- Render ---------- */
+function renderPlatformField() {
+  els['f-platform-field'].classList.toggle('hidden', !currentTabDef().hasPlatform);
+}
+
+function renderCoverControls() {
+  const showFetch = activeTab !== 'games' && !!settings.tmdbKey;
+  els.fetchCoverBtn.style.display = showFetch ? '' : 'none';
+}
+
+function renderStats() {
+  const n = lists[activeTab].length;
+  els.stats.innerHTML = n ? `<strong>${n}</strong> ranked` : '';
+}
+
+function render() {
+  renderTabs();
+  renderPlatformField();
+  renderCoverControls();
+  renderStats();
+  const arr = lists[activeTab];
+  els.list.innerHTML = '';
+
+  if (!arr.length) {
+    els.list.innerHTML = `<div class="empty">
+      <div class="big">Nothing ranked yet</div>
+      <div>Add one, or paste a list below to bulk-sort them in.</div>
+    </div>`;
+    return;
+  }
+
+  arr.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const metaParts = [];
+    if (item.platform) metaParts.push(item.platform);
+    row.innerHTML = `
+      <div class="cover-thumb">${item.cover ? `<img src="${escapeHtml(item.cover)}" alt="" onerror="this.style.display='none'">` : ''}</div>
+      <div class="rank-badge">${idx + 1}</div>
+      <div class="item-main">
+        <div class="title">${escapeHtml(item.title)}</div>
+        ${metaParts.length ? `<div class="meta">${escapeHtml(metaParts.join(' · '))}</div>` : ''}
+        ${item.notes ? `<div class="notes">${escapeHtml(item.notes)}</div>` : ''}
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-action="up" data-id="${item.id}" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
+        <button class="icon-btn" data-action="down" data-id="${item.id}" ${idx === arr.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+        <button class="icon-btn" data-action="compare" data-id="${item.id}" title="Reposition by comparison">⇄</button>
+        <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
+        <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
+      </div>
+    `;
+    els.list.appendChild(row);
+  });
+
+  els.list.querySelectorAll('[data-action="up"]').forEach(b => b.addEventListener('click', () => moveItem(b.dataset.id, -1)));
+  els.list.querySelectorAll('[data-action="down"]').forEach(b => b.addEventListener('click', () => moveItem(b.dataset.id, 1)));
+  els.list.querySelectorAll('[data-action="compare"]').forEach(b => b.addEventListener('click', () => repositionByCompare(b.dataset.id)));
+  els.list.querySelectorAll('[data-action="edit"]').forEach(b => b.addEventListener('click', () => editItem(b.dataset.id)));
+  els.list.querySelectorAll('[data-action="delete"]').forEach(b => b.addEventListener('click', () => deleteItem(b.dataset.id, b)));
+}
+
+/* ---------- Init ---------- */
+loadSettings();
+if (!checkSharedMode()) {
+  loadAll();
+  render();
+  backfillCovers(activeTab);
+}
+</script>
+</body>
+</html>
