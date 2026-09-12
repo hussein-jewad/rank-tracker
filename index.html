@@ -28,7 +28,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 100px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 60px; }
 
   header {
     display: flex;
@@ -298,6 +298,15 @@
   }
   .share-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
 
+  footer {
+    text-align: center;
+    padding: 24px 12px 12px;
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+  footer a { color: var(--teal); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
   @media (max-width: 520px) {
     .fields { grid-template-columns: 1fr; }
   }
@@ -321,21 +330,28 @@
     <div class="section-toggle" id="settingsToggle">
       <div>
         <div class="label">Settings</div>
-        <div class="sub">Add a free TMDb API key to auto-fetch movie &amp; series covers</div>
+        <div class="sub">Add API keys to auto-fetch covers for games, movies, and series</div>
       </div>
       <span class="chev">▾</span>
     </div>
     <div class="section-body">
       <div class="fields">
         <div class="field full">
-          <label for="tmdb-key">TMDb API key</label>
-          <input type="text" id="tmdb-key" placeholder="Paste your key here">
+          <label for="rawg-key">RAWG API key (Games)</label>
+          <input type="text" id="rawg-key" placeholder="Paste RAWG key here">
+        </div>
+        <div class="field full">
+          <label for="tmdb-key">TMDb API key (Movies &amp; Series)</label>
+          <input type="text" id="tmdb-key" placeholder="Paste TMDb key here">
         </div>
         <div class="form-actions">
           <button class="btn-primary" id="saveSettings">Save</button>
         </div>
       </div>
-      <div class="hint">Free at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org → Settings → API</a>. Games don't have a matching database, so covers there are always manual.</div>
+      <div class="hint">
+        Games: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io/apidocs</a> | 
+        Movies/Series: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>
+      </div>
     </div>
   </div>
 
@@ -397,7 +413,7 @@
           <button class="btn-primary" id="startBulk">Start guided sort</button>
         </div>
       </div>
-      <div class="hint">This runs a full guided sort, so if this tab already has ranked items, they'll be included in the comparisons too — best used to build a list from scratch. Covers fetch automatically afterward if you've added a TMDb key.</div>
+      <div class="hint">This runs a full guided sort, so if this tab already has ranked items, they'll be included in the comparisons too — best used to build a list from scratch. Covers fetch automatically afterward if you've added an API key.</div>
     </div>
   </div>
 
@@ -406,6 +422,10 @@
   </div>
 
   <div class="list" id="list"></div>
+
+  <footer>
+    Data and images provided by <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">RAWG</a> and <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
+  </footer>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -444,7 +464,7 @@ const TABS = [
 let activeTab = 'games';
 let lists = { games: [], movies: [], series: [] };
 let editingId = null;
-let settings = { tmdbKey: '' };
+let settings = { tmdbKey: '', rawgKey: '' };
 const coverFetchAttempted = new Set();
 
 // --- comparison engine state ---
@@ -459,7 +479,7 @@ let pendingDeleteId = null;
 let pendingDeleteTimer = null;
 
 const els = {};
-['stats','tabs','settingsSection','settingsToggle','tmdb-key','saveSettings',
+['stats','tabs','settingsSection','settingsToggle','tmdb-key','rawg-key','saveSettings',
  'addSection','addToggle','addLabel','cancelAdd','addToBottom','addByCompare',
  'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-notes',
  'bulkSection','bulkToggle','cancelBulk','startBulk','bulk-text',
@@ -488,13 +508,15 @@ function saveTab(tabKey) {
 function loadSettings() {
   try {
     const raw = localStorage.getItem('ranktracker:settings');
-    settings = raw ? JSON.parse(raw) : { tmdbKey: '' };
-  } catch (e) { settings = { tmdbKey: '' }; }
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '' };
+  } catch (e) { settings = { tmdbKey: '', rawgKey: '' }; }
   els['tmdb-key'].value = settings.tmdbKey || '';
+  els['rawg-key'].value = settings.rawgKey || '';
 }
 
 function saveSettingsFn() {
   settings.tmdbKey = els['tmdb-key'].value.trim();
+  settings.rawgKey = els['rawg-key'].value.trim();
   try {
     localStorage.setItem('ranktracker:settings', JSON.stringify(settings));
     showToast('Settings saved');
@@ -517,27 +539,68 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-/* ---------- TMDb covers ---------- */
+/* ---------- API Cover Fetching ---------- */
+
+// 1. RAWG API for Games
+async function fetchRawgCover(title) {
+  const key = settings.rawgKey;
+  if (!key) return null;
+
+  const cleanTitle = title.replace(/\(\d{4}\)/g, '').trim();
+
+  try {
+    const res = await fetch(
+      `https://api.rawg.io/api/games?key=${encodeURIComponent(key)}&search=${encodeURIComponent(cleanTitle)}&page_size=1`
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const first = data.results && data.results[0];
+    if (first && first.background_image) {
+      return first.background_image;
+    }
+  } catch (e) { /* network error */ }
+  return null;
+}
+
+// 2. TMDb API for Movies & Series
 async function fetchTmdbCover(title, mediaType) {
   const key = settings.tmdbKey;
   if (!key) return null;
+
+  const cleanTitle = title
+    .replace(/\(\d{4}\)/g, '')
+    .replace(/season\s*\d+/gi, '')
+    .trim();
+
   const endpoint = mediaType === 'series' ? 'tv' : 'movie';
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/search/${endpoint}?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(title)}`);
+    const res = await fetch(`https://api.themoviedb.org/3/search/${endpoint}?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(cleanTitle)}`);
     if (!res.ok) return null;
     const data = await res.json();
     const first = data.results && data.results[0];
     if (first && first.poster_path) return 'https://image.tmdb.org/t/p/w342' + first.poster_path;
-  } catch (e) { /* network error, ignore */ }
+  } catch (e) { /* network error */ }
   return null;
 }
 
+// 3. Unified fetch handler
+async function fetchCoverApi(title, tabKey) {
+  if (tabKey === 'games') {
+    return await fetchRawgCover(title);
+  } else {
+    return await fetchTmdbCover(title, tabKey);
+  }
+}
+
+// 4. Backfill missing covers
 async function backfillCovers(tabKey) {
-  if (tabKey === 'games' || !settings.tmdbKey) return;
+  const hasKey = tabKey === 'games' ? !!settings.rawgKey : !!settings.tmdbKey;
+  if (!hasKey) return;
+
   for (const item of lists[tabKey]) {
     if (!item.cover && !coverFetchAttempted.has(item.id)) {
       coverFetchAttempted.add(item.id);
-      const url = await fetchTmdbCover(item.title, tabKey);
+      const url = await fetchCoverApi(item.title, tabKey);
       if (url) { item.cover = url; saveTab(tabKey); render(); }
     }
   }
@@ -556,7 +619,9 @@ els.fetchCoverBtn.addEventListener('click', async () => {
   if (!title) { els['f-title'].focus(); showToast('Enter a title first'); return; }
   els.fetchCoverBtn.disabled = true;
   els.fetchCoverBtn.textContent = 'Fetching...';
-  const url = await fetchTmdbCover(title, activeTab);
+  
+  const url = await fetchCoverApi(title, activeTab);
+  
   els.fetchCoverBtn.disabled = false;
   els.fetchCoverBtn.textContent = 'Auto-fetch';
   if (url) {
@@ -929,8 +994,8 @@ function renderPlatformField() {
 }
 
 function renderCoverControls() {
-  const showFetch = activeTab !== 'games' && !!settings.tmdbKey;
-  els.fetchCoverBtn.style.display = showFetch ? '' : 'none';
+  const hasKey = activeTab === 'games' ? !!settings.rawgKey : !!settings.tmdbKey;
+  els.fetchCoverBtn.style.display = hasKey ? '' : 'none';
 }
 
 function renderStats() {
@@ -977,18 +1042,24 @@ function render() {
     `;
     els.list.appendChild(row);
   });
-
-  els.list.querySelectorAll('[data-action="up"]').forEach(b => b.addEventListener('click', () => moveItem(b.dataset.id, -1)));
-  els.list.querySelectorAll('[data-action="down"]').forEach(b => b.addEventListener('click', () => moveItem(b.dataset.id, 1)));
-  els.list.querySelectorAll('[data-action="compare"]').forEach(b => b.addEventListener('click', () => repositionByCompare(b.dataset.id)));
-  els.list.querySelectorAll('[data-action="edit"]').forEach(b => b.addEventListener('click', () => editItem(b.dataset.id)));
-  els.list.querySelectorAll('[data-action="delete"]').forEach(b => b.addEventListener('click', () => deleteItem(b.dataset.id, b)));
 }
 
-/* ---------- Init ---------- */
+els.list.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn || btn.disabled) return;
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+  if (action === 'up') moveItem(id, -1);
+  else if (action === 'down') moveItem(id, 1);
+  else if (action === 'compare') repositionByCompare(id);
+  else if (action === 'edit') editItem(id);
+  else if (action === 'delete') deleteItem(id, btn);
+});
+
+// --- Init ---
+loadAll();
 loadSettings();
 if (!checkSharedMode()) {
-  loadAll();
   render();
   backfillCovers(activeTab);
 }
