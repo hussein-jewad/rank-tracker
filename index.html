@@ -148,6 +148,16 @@
     flex-wrap: wrap;
   }
 
+  .sync-divider {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+    margin: 10px 0 2px;
+    padding-top: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--amber);
+  }
+
   button {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -171,8 +181,11 @@
 
   .controls-row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   /* List */
@@ -330,7 +343,7 @@
     <div class="section-toggle" id="settingsToggle">
       <div>
         <div class="label">Settings</div>
-        <div class="sub">Add API keys to auto-fetch covers for games, movies, and series</div>
+        <div class="sub">API keys for covers &amp; GitHub Gist sync across devices</div>
       </div>
       <span class="chev">▾</span>
     </div>
@@ -344,13 +357,25 @@
           <label for="tmdb-key">TMDb API key (Movies &amp; Series)</label>
           <input type="text" id="tmdb-key" placeholder="Paste TMDb key here">
         </div>
+
+        <div class="sync-divider">Cloud Sync (GitHub Gist)</div>
+        <div class="field full">
+          <label for="gh-token">GitHub Personal Access Token (classic)</label>
+          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxx">
+        </div>
+        <div class="field full">
+          <label for="gist-id">Gist ID</label>
+          <input type="text" id="gist-id" placeholder="e.g. 8f9a2b3c4d5e6f7a8b9c">
+        </div>
+
         <div class="form-actions">
-          <button class="btn-primary" id="saveSettings">Save</button>
+          <button class="btn-primary" id="saveSettings">Save Settings</button>
         </div>
       </div>
       <div class="hint">
-        Games: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io/apidocs</a> | 
-        Movies/Series: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>
+        Keys: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io</a> | 
+        <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">tmdb.org</a><br>
+        Token: <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> (Select scope: <strong>gist</strong>)
       </div>
     </div>
   </div>
@@ -413,12 +438,16 @@
           <button class="btn-primary" id="startBulk">Start guided sort</button>
         </div>
       </div>
-      <div class="hint">This runs a full guided sort, so if this tab already has ranked items, they'll be included in the comparisons too — best used to build a list from scratch. Covers fetch automatically afterward if you've added an API key.</div>
+      <div class="hint">This runs a full guided sort, so if this tab already has ranked items, they'll be included in the comparisons too. Covers fetch automatically afterward if you've added an API key.</div>
     </div>
   </div>
 
   <div class="controls-row">
-    <button class="btn-secondary" id="shareBtn">Share this list</button>
+    <div>
+      <button class="btn-secondary" id="pullBtn" title="Pull latest data from GitHub Gist">☁ Pull from Cloud</button>
+      <button class="btn-secondary" id="pushBtn" title="Save current data to GitHub Gist">☁ Push to Cloud</button>
+    </div>
+    <button class="btn-ghost" id="shareBtn">Share this list</button>
   </div>
 
   <div class="list" id="list"></div>
@@ -450,7 +479,7 @@
       <button class="btn-primary" id="copyShareLink">Copy link</button>
       <button class="btn-ghost" id="closeShare">Close</button>
     </div>
-    <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now, not any future changes you make.</div>
+    <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now.</div>
   </div>
 </div>
 
@@ -464,7 +493,7 @@ const TABS = [
 let activeTab = 'games';
 let lists = { games: [], movies: [], series: [] };
 let editingId = null;
-let settings = { tmdbKey: '', rawgKey: '' };
+let settings = { tmdbKey: '', rawgKey: '', ghToken: '', gistId: '' };
 const coverFetchAttempted = new Set();
 
 // --- comparison engine state ---
@@ -479,11 +508,11 @@ let pendingDeleteId = null;
 let pendingDeleteTimer = null;
 
 const els = {};
-['stats','tabs','settingsSection','settingsToggle','tmdb-key','rawg-key','saveSettings',
+['stats','tabs','settingsSection','settingsToggle','tmdb-key','rawg-key','gh-token','gist-id','saveSettings',
  'addSection','addToggle','addLabel','cancelAdd','addToBottom','addByCompare',
  'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-notes',
  'bulkSection','bulkToggle','cancelBulk','startBulk','bulk-text',
- 'shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
+ 'pullBtn','pushBtn','shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
  'sharedBanner','sharedBannerLabel','exitShared',
  'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
  .forEach(id => els[id] = document.getElementById(id));
@@ -508,15 +537,19 @@ function saveTab(tabKey) {
 function loadSettings() {
   try {
     const raw = localStorage.getItem('ranktracker:settings');
-    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '' };
-  } catch (e) { settings = { tmdbKey: '', rawgKey: '' }; }
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '', ghToken: '', gistId: '' };
+  } catch (e) { settings = { tmdbKey: '', rawgKey: '', ghToken: '', gistId: '' }; }
   els['tmdb-key'].value = settings.tmdbKey || '';
   els['rawg-key'].value = settings.rawgKey || '';
+  els['gh-token'].value = settings.ghToken || '';
+  els['gist-id'].value = settings.gistId || '';
 }
 
 function saveSettingsFn() {
   settings.tmdbKey = els['tmdb-key'].value.trim();
   settings.rawgKey = els['rawg-key'].value.trim();
+  settings.ghToken = els['gh-token'].value.trim();
+  settings.gistId = els['gist-id'].value.trim();
   try {
     localStorage.setItem('ranktracker:settings', JSON.stringify(settings));
     showToast('Settings saved');
@@ -530,7 +563,7 @@ function uid() { return 'i_' + Date.now() + '_' + Math.random().toString(36).sli
 function showToast(msg) {
   els.toast.textContent = msg;
   els.toast.classList.add('show');
-  setTimeout(() => els.toast.classList.remove('show'), 1800);
+  setTimeout(() => els.toast.classList.remove('show'), 2200);
 }
 
 function escapeHtml(str) {
@@ -538,6 +571,96 @@ function escapeHtml(str) {
   div.textContent = str || '';
   return div.innerHTML;
 }
+
+/* ---------- Gist Cloud Sync ---------- */
+
+async function pushToGist() {
+  if (!settings.ghToken || !settings.gistId) {
+    els.settingsSection.classList.remove('collapsed');
+    showToast('Please enter your GitHub Token and Gist ID in Settings');
+    return;
+  }
+
+  els.pushBtn.disabled = true;
+  els.pushBtn.textContent = 'Pushing...';
+
+  const payload = {
+    description: 'Rank Tracker Data Backup',
+    files: {
+      'ranktracker_data.json': {
+        content: JSON.stringify(lists, null, 2)
+      }
+    }
+  };
+
+  try {
+    const res = await fetch(`https://api.github.com/gists/${settings.gistId}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `token ${settings.ghToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      showToast('☁ Successfully saved to GitHub Cloud!');
+    } else {
+      const err = await res.json();
+      showToast('Push failed: ' + (err.message || 'Check Token/Gist ID'));
+    }
+  } catch (e) {
+    showToast('Network error while pushing to Gist');
+  } finally {
+    els.pushBtn.disabled = false;
+    els.pushBtn.textContent = '☁ Push to Cloud';
+  }
+}
+
+async function pullFromGist() {
+  if (!settings.ghToken || !settings.gistId) {
+    els.settingsSection.classList.remove('collapsed');
+    showToast('Please enter your GitHub Token and Gist ID in Settings');
+    return;
+  }
+
+  els.pullBtn.disabled = true;
+  els.pullBtn.textContent = 'Pulling...';
+
+  try {
+    const res = await fetch(`https://api.github.com/gists/${settings.gistId}`, {
+      headers: {
+        'Authorization': `token ${settings.ghToken}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const file = data.files && data.files['ranktracker_data.json'];
+      if (file && file.content) {
+        const remoteLists = JSON.parse(file.content);
+        lists = { ...lists, ...remoteLists };
+        TABS.forEach(t => saveTab(t.key));
+        render();
+        showToast('☁ Synced latest data from Cloud!');
+      } else {
+        showToast('Gist found, but no ranktracker_data.json file inside it yet. Try pushing first.');
+      }
+    } else {
+      showToast('Pull failed — check your Token & Gist ID');
+    }
+  } catch (e) {
+    showToast('Error parsing Gist data');
+  } finally {
+    els.pullBtn.disabled = false;
+    els.pullBtn.textContent = '☁ Pull from Cloud';
+  }
+}
+
+els.pushBtn.addEventListener('click', pushToGist);
+els.pullBtn.addEventListener('click', pullFromGist);
 
 /* ---------- API Cover Fetching ---------- */
 
@@ -627,9 +750,9 @@ els.fetchCoverBtn.addEventListener('click', async () => {
   if (url) {
     els['f-cover'].value = url;
     updateCoverPreview();
-    showToast('Cover found — you can still edit the URL');
+    showToast('Cover found');
   } else {
-    showToast('No cover found — try pasting a URL manually');
+    showToast('No cover found');
   }
 });
 
