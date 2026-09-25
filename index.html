@@ -435,6 +435,7 @@
         </div>
         <div class="form-actions">
           <button class="btn-ghost" id="cancelBulk">Cancel</button>
+          <button class="btn-secondary" id="importDirect">Import in order (as-is)</button>
           <button class="btn-primary" id="startBulk">Start guided sort</button>
         </div>
       </div>
@@ -511,7 +512,7 @@ const els = {};
 ['stats','tabs','settingsSection','settingsToggle','tmdb-key','rawg-key','gh-token','gist-id','saveSettings',
  'addSection','addToggle','addLabel','cancelAdd','addToBottom','addByCompare',
  'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-notes',
- 'bulkSection','bulkToggle','cancelBulk','startBulk','bulk-text',
+ 'bulkSection','bulkToggle','cancelBulk', 'importDirect', 'startBulk','bulk-text',
  'pullBtn','pushBtn','shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
  'sharedBanner','sharedBannerLabel','exitShared',
  'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
@@ -901,6 +902,36 @@ function repositionByCompare(id) {
   compEstimate = Math.max(1, Math.ceil(Math.log2(without.length + 1)));
   stepGen();
 }
+
+/* ---------- Import directly ----- */
+els.importDirect.addEventListener('click', () => {
+  const raw = els['bulk-text'].value;
+  const lines = raw.split('\n')
+    .map(l => l.replace(/^\s*\d+[\.\)]?\s*/, '').trim()) // strip leading numbers/dots
+    .filter(l => l.length > 0);
+
+  if (lines.length === 0) return;
+
+  // Convert each line directly into an item object
+  const newItems = lines.map(t => ({
+    id: uid(),
+    title: t,
+    platform: '',
+    cover: '',
+    notes: ''
+  }));
+
+  // Append directly to the end of the current active tab's list
+  lists[activeTab] = lists[activeTab].concat(newItems);
+
+  // Save, clean up, and render
+  saveTab(activeTab);
+  els['bulk-text'].value = '';
+  els.bulkSection.classList.add('collapsed');
+  render();
+  backfillCovers(activeTab);
+  showToast(`Imported ${newItems.length} items as-is`);
+});
 
 /* ---------- Bulk import ---------- */
 els.startBulk.addEventListener('click', () => {
