@@ -31,7 +31,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .wrap { max-width: 800px; margin: 0 auto; padding: 48px 24px 60px; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 48px 24px 60px; }
 
   header {
     display: flex;
@@ -105,14 +105,36 @@
   }
   .subtab.active { color: var(--bg); background: var(--teal); border-color: var(--teal); }
 
-  /* Tag filter bar */
-  .tag-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  /* Filters (tags + year) */
+  .filter-trigger-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+  .filter-toggle-btn {
+    background: var(--bg-raised); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 6px; padding: 8px 14px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+  }
+  .filter-toggle-btn.has-active { border-color: var(--amber); color: var(--amber); }
+  .filter-panel {
+    display: none; background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px; margin-bottom: 18px;
+  }
+  .filter-panel.open { display: block; }
+  .filter-panel label { display: block; margin-bottom: 8px; }
+  #tagSearch { margin-bottom: 10px; }
+  .tag-scroll {
+    max-height: 150px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 2px 2px 4px; margin-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
   .tag-chip {
-    font-size: 12px; color: var(--ink-dim); background: var(--bg-raised);
+    font-size: 12px; color: var(--ink-dim); background: var(--bg);
     border: 1px solid var(--line); padding: 4px 11px; border-radius: 100px; cursor: pointer;
   }
   .tag-chip.active { color: var(--bg); background: var(--amber); border-color: var(--amber); }
-  .tag-chip.clear { color: var(--red); border-color: var(--red); background: none; }
+  .year-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .year-filters button {
+    font-size: 12.5px; color: var(--ink-dim); background: var(--bg);
+    border: 1px solid var(--line); padding: 5px 12px; border-radius: 100px; cursor: pointer;
+  }
+  .year-filters button.active { color: var(--bg); background: var(--teal); border-color: var(--teal); }
+  .filter-panel-actions { display: flex; justify-content: flex-end; }
 
   /* Drawer */
   .drawer-overlay {
@@ -189,43 +211,38 @@
   .list { display: flex; flex-direction: column; margin-top: 4px; }
 
   .row {
-    display: grid; align-items: center; gap: 16px;
-    padding: 20px 6px; border-bottom: 1px solid var(--line); min-height: 84px;
+    display: grid; align-items: center; gap: 22px;
+    padding: 26px 10px; border-bottom: 1px solid var(--line); min-height: 148px;
   }
   .row:first-child { border-top: 1px solid var(--line); }
-  .row-media { grid-template-columns: 44px 36px 1fr auto; }
-  .row-game { grid-template-columns: 68px 36px 1fr auto; }
-  .row-watch.row-media { grid-template-columns: 44px 1fr auto; }
-  .row-watch.row-game { grid-template-columns: 68px 1fr auto; }
+  .row-media { grid-template-columns: 84px 52px 1fr auto; }
+  .row-watch.row-media { grid-template-columns: 84px 1fr auto; }
 
-  .cover-thumb { border-radius: 4px; overflow: hidden; background: var(--bg); border: 1px solid var(--line); flex-shrink: 0; }
-  .row-media .cover-thumb { width: 44px; height: 62px; }
-  .row-game .cover-thumb { width: 68px; height: 46px; }
+  .cover-thumb { border-radius: 5px; overflow: hidden; background: var(--bg); border: 1px solid var(--line); flex-shrink: 0; }
+  .row-media .cover-thumb { width: 84px; height: 120px; }
   .cover-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .rank-badge {
-    font-family: 'Fraunces', serif; font-weight: 700; font-size: 16px;
-    width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    color: var(--ink-dim);
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 19px;
+    width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-dim); flex-shrink: 0;
   }
-  .tier-gold { background: linear-gradient(135deg,#f6dd96,var(--gold)); color: #2a1d02; font-weight: 800; font-size: 18px; }
-  .tier-silver { background: linear-gradient(135deg,#eef1f4,var(--silver)); color: #1b1f2a; font-weight: 800; font-size: 18px; }
-  .tier-bronze { background: linear-gradient(135deg,#e7b084,var(--bronze)); color: #2a1502; font-weight: 800; font-size: 18px; }
+  .tier-gold { background: linear-gradient(135deg,#f6dd96,var(--gold)); color: #2a1d02; font-weight: 800; font-size: 23px; }
+  .tier-silver { background: linear-gradient(135deg,#eef1f4,var(--silver)); color: #1b1f2a; font-weight: 800; font-size: 23px; }
+  .tier-bronze { background: linear-gradient(135deg,#e7b084,var(--bronze)); color: #2a1502; font-weight: 800; font-size: 23px; }
   .tier-top5 { color: var(--amber); font-weight: 700; }
   .tier-top10 { color: var(--teal); }
   .tier-top20 { color: var(--ink); }
 
-  .item-main .title { font-size: 16px; font-weight: 500; }
-  .item-main .meta { font-size: 13px; color: var(--ink-dim); margin-top: 2px; }
-  .item-main .notes { font-size: 13.5px; color: var(--ink-dim); margin-top: 6px; line-height: 1.4; }
-  .item-main .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-  .item-main .tags span { font-size: 11px; color: var(--teal); background: rgba(79,168,160,0.1); border: 1px solid var(--teal); padding: 2px 8px; border-radius: 100px; }
+  .item-main .title { font-size: 20px; font-weight: 600; }
+  .item-main .meta { font-size: 14.5px; color: var(--ink-dim); margin-top: 4px; }
+  .item-main .notes { font-size: 14.5px; color: var(--ink-dim); margin-top: 8px; line-height: 1.5; }
 
-  .row-actions { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
+  .row-actions { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
 
   .icon-btn {
-    background: none; border: none; color: var(--ink-dim); font-size: 13px;
-    padding: 4px 7px; cursor: pointer; border-radius: 3px;
+    background: none; border: none; color: var(--ink-dim); font-size: 14.5px;
+    padding: 6px 10px; cursor: pointer; border-radius: 4px;
   }
   .icon-btn:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
   .icon-btn:disabled { opacity: 0.25; cursor: default; }
@@ -302,17 +319,26 @@
     <button class="manage-btn" id="openDrawer">⚙ Manage</button>
   </div>
 
-  <div class="sub-tabs" id="subTabs">
-    <button class="subtab active" data-mode="ranked">Ranked</button>
-    <button class="subtab" data-mode="watch">To watch / play</button>
-  </div>
+  <div class="sub-tabs" id="subTabs"></div>
 
-  <div class="tag-bar" id="tagBar"></div>
+  <div class="filter-trigger-row">
+    <button class="filter-toggle-btn" id="filterToggle">Filters</button>
+  </div>
+  <div class="filter-panel" id="filterPanel">
+    <label for="tagSearch">Search tags</label>
+    <input type="text" id="tagSearch" placeholder="Type to find a tag...">
+    <div class="tag-scroll" id="tagScroll"></div>
+    <label>Year</label>
+    <div class="year-filters" id="yearFilters"></div>
+    <div class="filter-panel-actions">
+      <button class="btn-ghost" id="clearFilters">Clear all filters</button>
+    </div>
+  </div>
 
   <div class="list" id="list"></div>
 
   <footer id="attributionFooter" style="display:none;">
-    Data and images provided by <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">RAWG</a> and <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
+    Game art via <a href="https://www.steamgriddb.com" target="_blank" rel="noopener noreferrer">SteamGridDB</a>. Movie &amp; series data via <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
   </footer>
 </div>
 
@@ -341,7 +367,7 @@
         <div class="field full">
           <div class="hint">Create a fine-grained token at <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>, scoped to just this repo, with "Contents: Read and write" permission. It's stored only in this browser.</div>
         </div>
-        <div class="field full"><label>RAWG API key (Games covers)</label><input type="text" id="rawg-key" placeholder="Paste RAWG key here"></div>
+        <div class="field full"><label>SteamGridDB API key (Games covers)</label><input type="text" id="sgdb-key" placeholder="Paste SteamGridDB key here"></div>
         <div class="field full"><label>TMDb API key (Movies &amp; Series covers)</label><input type="text" id="tmdb-key" placeholder="Paste TMDb key here"></div>
         <div class="form-actions">
           <button class="btn-secondary" id="syncNow">Sync now</button>
@@ -349,7 +375,7 @@
         </div>
       </div>
       <div class="hint">
-        Games: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io/apidocs</a> ·
+        Games: free key at <a href="https://www.steamgriddb.com/profile/preferences/api" target="_blank" rel="noopener">steamgriddb.com → Preferences → API</a> (RAWG's API has been unreliable, so covers now use SteamGridDB — the same community art database used by Steam library tools) ·
         Movies/Series: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>
       </div>
     </div>
@@ -375,6 +401,7 @@
           </div>
           <img id="coverPreview" class="cover-preview">
         </div>
+        <div class="field"><label for="f-year">Year (optional)</label><input type="number" id="f-year" placeholder="e.g. 2015" min="1900" max="2100"></div>
         <div class="field full"><label for="f-tags">Tags (comma separated, optional)</label><input type="text" id="f-tags" placeholder="e.g. horror, survival"></div>
         <div class="field full"><label for="f-notes">Notes (optional)</label><textarea id="f-notes" style="min-height: 50px;"></textarea></div>
         <div class="form-actions">
@@ -443,20 +470,28 @@
 
 <script>
 const TABS = [
-  { key: 'games', label: 'Games', hasPlatform: true, cls: 'row-game' },
+  { key: 'games', label: 'Games', hasPlatform: true, cls: 'row-media' },
   { key: 'movies', label: 'Movies', hasPlatform: false, cls: 'row-media' },
   { key: 'series', label: 'Series', hasPlatform: false, cls: 'row-media' },
 ];
+const SUBTABS = [
+  { mode: 'ranked', label: 'Ranked' },
+  { mode: 'watch', label: 'To watch / play' },
+  { mode: 'honorable', label: 'Honorable mention', gamesOnly: true },
+];
 
 let activeTab = 'games';
-let listMode = 'ranked'; // 'ranked' | 'watch'
+let listMode = 'ranked'; // 'ranked' | 'watch' | 'honorable'
 let lists = { games: [], movies: [], series: [] };
 let watch = { games: [], movies: [], series: [] };
+let honorable = { games: [] };
 let editingId = null;
-let settings = { tmdbKey: '', rawgKey: '' };
+let settings = { tmdbKey: '', sgdbKey: '' };
 let github = { owner: '', repo: '', branch: 'main', token: '' };
 const coverFetchAttempted = new Set();
 let activeTagFilters = new Set();
+let yearFilterRange = 'all';
+let tagSearchText = '';
 
 // --- GitHub sync state ---
 let shas = {};
@@ -471,20 +506,29 @@ let compCount = 0, compEstimate = 0;
 let pendingDeleteId = null, pendingDeleteTimer = null;
 
 const els = {};
-['stats','tabs','subTabs','tagBar','openDrawer','drawer','drawerOverlay','drawerClose',
+['stats','tabs','subTabs','openDrawer','drawer','drawerOverlay','drawerClose',
  'sharedBanner','sharedBannerLabel','exitShared','setupBanner','setupBannerBtn',
  'settingsSection','settingsToggle','gh-owner','gh-repo','gh-branch','gh-token','syncNow',
- 'tmdb-key','rawg-key','saveSettings','attributionFooter',
+ 'tmdb-key','sgdb-key','saveSettings','attributionFooter',
  'addSection','addToggle','addLabel','addSub','cancelAdd','addToBottom','addByCompare',
- 'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-tags','f-notes',
+ 'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-year','f-tags','f-notes',
  'bulkSection','bulkToggle','bulkSub','bulkHint','cancelBulk','startBulk','startBulkInstant','bulk-text',
  'shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
+ 'filterToggle','filterPanel','tagSearch','tagScroll','yearFilters','clearFilters',
  'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
  .forEach(id => els[id] = document.getElementById(id));
 
 function currentTabDef() { return TABS.find(t => t.key === activeTab); }
-function activeArr() { return listMode === 'ranked' ? lists[activeTab] : watch[activeTab]; }
-function dataKey(tabKey, mode) { return mode === 'watch' ? 'watch-' + tabKey : tabKey; }
+function activeArr() {
+  if (listMode === 'ranked') return lists[activeTab];
+  if (listMode === 'watch') return watch[activeTab];
+  return honorable[activeTab] || [];
+}
+function dataKey(tabKey, mode) {
+  if (mode === 'watch') return 'watch-' + tabKey;
+  if (mode === 'honorable') return 'honorable-' + tabKey;
+  return tabKey;
+}
 
 function uid() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
 
@@ -507,14 +551,15 @@ function escapeHtml(str) {
 function loadSettings() {
   try {
     const raw = localStorage.getItem('ranktracker:settings');
-    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '' };
-  } catch (e) { settings = { tmdbKey: '', rawgKey: '' }; }
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '', sgdbKey: '' };
+    if (settings.rawgKey && !settings.sgdbKey) delete settings.rawgKey; // drop retired RAWG key
+  } catch (e) { settings = { tmdbKey: '', sgdbKey: '' }; }
   try {
     const raw = localStorage.getItem('ranktracker:github');
     github = raw ? JSON.parse(raw) : { owner: '', repo: '', branch: 'main', token: '' };
   } catch (e) { github = { owner: '', repo: '', branch: 'main', token: '' }; }
   els['tmdb-key'].value = settings.tmdbKey || '';
-  els['rawg-key'].value = settings.rawgKey || '';
+  els['sgdb-key'].value = settings.sgdbKey || '';
   els['gh-owner'].value = github.owner || '';
   els['gh-repo'].value = github.repo || '';
   els['gh-branch'].value = github.branch || 'main';
@@ -523,14 +568,14 @@ function loadSettings() {
 }
 
 function renderAttributionFooter() {
-  els.attributionFooter.style.display = (settings.tmdbKey || settings.rawgKey) ? '' : 'none';
+  els.attributionFooter.style.display = (settings.tmdbKey || settings.sgdbKey) ? '' : 'none';
 }
 
 function githubReady() { return !!(github.owner && github.repo && github.token); }
 
 function saveSettingsFn() {
   settings.tmdbKey = els['tmdb-key'].value.trim();
-  settings.rawgKey = els['rawg-key'].value.trim();
+  settings.sgdbKey = els['sgdb-key'].value.trim();
   const prevReady = githubReady();
   github.owner = els['gh-owner'].value.trim();
   github.repo = els['gh-repo'].value.trim();
@@ -600,6 +645,7 @@ function queueSave(key, data) {
 
 function saveTab(tabKey) { queueSave(dataKey(tabKey, 'ranked'), lists[tabKey]); }
 function saveWatchTab(tabKey) { queueSave(dataKey(tabKey, 'watch'), watch[tabKey]); }
+function saveHonorableTab(tabKey) { queueSave(dataKey(tabKey, 'honorable'), honorable[tabKey]); }
 
 async function initialLoad() {
   if (!githubReady()) { render(); return; }
@@ -609,6 +655,7 @@ async function initialLoad() {
       lists[t.key] = await ghReadTab(dataKey(t.key, 'ranked'));
       watch[t.key] = await ghReadTab(dataKey(t.key, 'watch'));
     }
+    honorable.games = await ghReadTab(dataKey('games', 'honorable'));
     showToast('Loaded from GitHub');
   } catch (e) {
     showToast('Could not load from GitHub: ' + e.message);
@@ -619,17 +666,23 @@ async function initialLoad() {
 
 els.syncNow.addEventListener('click', initialLoad);
 
-/* ---------- TMDb / RAWG covers ---------- */
-async function fetchRawgCover(title) {
-  const key = settings.rawgKey;
+/* ---------- TMDb / SteamGridDB covers ---------- */
+async function fetchSteamGridDbCover(title) {
+  const key = settings.sgdbKey;
   if (!key) return null;
   const cleanTitle = title.replace(/\(\d{4}\)/g, '').trim();
+  const headers = { 'Authorization': 'Bearer ' + key };
   try {
-    const res = await fetch(`https://api.rawg.io/api/games?key=${encodeURIComponent(key)}&search=${encodeURIComponent(cleanTitle)}&page_size=1`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    const first = data.results && data.results[0];
-    if (first && first.background_image) return first.background_image;
+    const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(cleanTitle)}`, { headers });
+    if (!searchRes.ok) return null;
+    const searchData = await searchRes.json();
+    const first = searchData.data && searchData.data[0];
+    if (!first) return null;
+    const gridRes = await fetch(`https://www.steamgriddb.com/api/v2/grids/game/${first.id}?dimensions=600x900`, { headers });
+    if (!gridRes.ok) return null;
+    const gridData = await gridRes.json();
+    const grid = gridData.data && gridData.data[0];
+    if (grid && grid.url) return grid.url;
   } catch (e) {}
   return null;
 }
@@ -650,22 +703,20 @@ async function fetchTmdbCover(title, mediaType) {
 }
 
 async function fetchCoverApi(title, tabKey) {
-  return tabKey === 'games' ? fetchRawgCover(title) : fetchTmdbCover(title, tabKey);
+  return tabKey === 'games' ? fetchSteamGridDbCover(title) : fetchTmdbCover(title, tabKey);
 }
 
 async function backfillCovers(tabKey) {
-  const hasKey = tabKey === 'games' ? !!settings.rawgKey : !!settings.tmdbKey;
+  const hasKey = tabKey === 'games' ? !!settings.sgdbKey : !!settings.tmdbKey;
   if (!hasKey) return;
-  for (const arr of [lists[tabKey], watch[tabKey]]) {
+  const groups = [[lists[tabKey], () => saveTab(tabKey)], [watch[tabKey], () => saveWatchTab(tabKey)]];
+  if (tabKey === 'games') groups.push([honorable.games, () => saveHonorableTab('games')]);
+  for (const [arr, save] of groups) {
     for (const item of arr) {
       if (!item.cover && !coverFetchAttempted.has(item.id)) {
         coverFetchAttempted.add(item.id);
         const url = await fetchCoverApi(item.title, tabKey);
-        if (url) {
-          item.cover = url;
-          if (lists[tabKey].includes(item)) saveTab(tabKey); else saveWatchTab(tabKey);
-          render();
-        }
+        if (url) { item.cover = url; save(); render(); }
       }
     }
   }
@@ -714,7 +765,8 @@ function renderTabs() {
     btn.textContent = t.label;
     btn.addEventListener('click', () => {
       activeTab = t.key;
-      activeTagFilters = new Set();
+      if (listMode === 'honorable' && activeTab !== 'games') listMode = 'ranked';
+      resetFilters();
       resetForm();
       render();
       backfillCovers(activeTab);
@@ -723,15 +775,30 @@ function renderTabs() {
   });
 }
 
-els.subTabs.querySelectorAll('.subtab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    listMode = btn.dataset.mode;
-    els.subTabs.querySelectorAll('.subtab').forEach(b => b.classList.toggle('active', b === btn));
-    activeTagFilters = new Set();
-    resetForm();
-    render();
+function renderSubTabs() {
+  els.subTabs.innerHTML = '';
+  SUBTABS.forEach(s => {
+    if (s.gamesOnly && activeTab !== 'games') return;
+    const btn = document.createElement('button');
+    btn.className = 'subtab' + (listMode === s.mode ? ' active' : '');
+    btn.textContent = s.label;
+    btn.addEventListener('click', () => {
+      listMode = s.mode;
+      resetFilters();
+      resetForm();
+      render();
+    });
+    els.subTabs.appendChild(btn);
   });
-});
+}
+
+function resetFilters() {
+  activeTagFilters = new Set();
+  yearFilterRange = 'all';
+  tagSearchText = '';
+  els.tagSearch.value = '';
+  els.filterPanel.classList.remove('open');
+}
 
 /* ---------- Settings toggle ---------- */
 els.settingsToggle.addEventListener('click', () => els.settingsSection.classList.toggle('collapsed'));
@@ -752,16 +819,20 @@ function resetForm() {
   els['f-title'].value = '';
   els['f-platform'].value = '';
   els['f-cover'].value = '';
+  els['f-year'].value = '';
   els['f-tags'].value = '';
   els['f-notes'].value = '';
   updateCoverPreview();
-  els.addByCompare.style.display = listMode === 'watch' ? 'none' : '';
-  els.addToBottom.textContent = listMode === 'watch' ? 'Add to watchlist' : 'Add to bottom';
+  const unranked = listMode !== 'ranked';
+  els.addByCompare.style.display = unranked ? 'none' : '';
+  els.addToBottom.textContent = listMode === 'watch' ? 'Add to watchlist' : listMode === 'honorable' ? 'Add honorable mention' : 'Add to bottom';
   els.addLabel.textContent = 'Add';
-  els.addSub.textContent = listMode === 'watch' ? 'Add something to watch or play later' : 'Add to the bottom, or rank it by comparison';
-  els.startBulk.style.display = listMode === 'watch' ? 'none' : '';
-  els.bulkHint.textContent = listMode === 'watch'
-    ? 'Paste titles and add them instantly — the watchlist isn\'t ranked.'
+  els.addSub.textContent = listMode === 'watch' ? 'Add something to watch or play later'
+    : listMode === 'honorable' ? 'Didn\'t quite make the cut, but deserves a shoutout'
+    : 'Add to the bottom, or rank it by comparison';
+  els.startBulk.style.display = unranked ? 'none' : '';
+  els.bulkHint.textContent = unranked
+    ? 'Paste titles and add them instantly — this list isn\'t ranked by comparison.'
     : 'Guided sort runs full comparisons, so if this list already has items, they\'ll be included too — best used to build a list from scratch. Covers fetch automatically afterward if you\'ve added an API key.';
 }
 
@@ -770,17 +841,27 @@ function parseTags(str) {
 }
 
 function readForm() {
+  const yearVal = els['f-year'].value.trim();
   return {
     title: els['f-title'].value.trim(),
     platform: els['f-platform'].value.trim(),
     cover: els['f-cover'].value.trim(),
+    year: yearVal ? parseInt(yearVal, 10) : null,
     tags: parseTags(els['f-tags'].value),
     notes: els['f-notes'].value.trim(),
   };
 }
 
-function currentArrRef() { return listMode === 'ranked' ? lists[activeTab] : watch[activeTab]; }
-function currentSave() { return listMode === 'ranked' ? () => saveTab(activeTab) : () => saveWatchTab(activeTab); }
+function currentArrRef() {
+  if (listMode === 'ranked') return lists[activeTab];
+  if (listMode === 'watch') return watch[activeTab];
+  return honorable[activeTab];
+}
+function currentSave() {
+  if (listMode === 'ranked') return () => saveTab(activeTab);
+  if (listMode === 'watch') return () => saveWatchTab(activeTab);
+  return () => saveHonorableTab(activeTab);
+}
 
 els.addToBottom.addEventListener('click', () => {
   const data = readForm();
@@ -820,6 +901,7 @@ function editItem(id) {
   els['f-title'].value = item.title;
   els['f-platform'].value = item.platform || '';
   els['f-cover'].value = item.cover || '';
+  els['f-year'].value = item.year || '';
   els['f-tags'].value = (item.tags || []).join(', ');
   els['f-notes'].value = item.notes || '';
   updateCoverPreview();
@@ -878,12 +960,13 @@ function repositionByCompare(id) {
 }
 
 function moveToRanked(id) {
-  const arr = watch[activeTab];
+  const fromMode = listMode;
+  const arr = fromMode === 'watch' ? watch[activeTab] : honorable[activeTab];
   const idx = arr.findIndex(i => i.id === id);
   if (idx === -1) return;
   const item = arr[idx];
   arr.splice(idx, 1);
-  saveWatchTab(activeTab);
+  if (fromMode === 'watch') saveWatchTab(activeTab); else saveHonorableTab(activeTab);
   render();
   startInsertFlow(activeTab, item);
 }
@@ -1111,14 +1194,46 @@ function tierInfo(idx) {
   return { cls: '', label: String(idx + 1) };
 }
 
-/* ---------- Tag filters ---------- */
-function renderTagBar(arr) {
+/* ---------- Filter panel (tags + year) ---------- */
+const YEAR_RANGES = [
+  { key: 'all', label: 'All years' },
+  { key: 'pre2010', label: 'Before 2010' },
+  { key: '2010s', label: '2010–2019' },
+  { key: '2020s', label: '2020+' },
+];
+
+function yearMatches(item) {
+  if (yearFilterRange === 'all') return true;
+  if (!item.year) return false;
+  if (yearFilterRange === 'pre2010') return item.year < 2010;
+  if (yearFilterRange === '2010s') return item.year >= 2010 && item.year <= 2019;
+  if (yearFilterRange === '2020s') return item.year >= 2020;
+  return true;
+}
+
+els.filterToggle.addEventListener('click', () => els.filterPanel.classList.toggle('open'));
+els.tagSearch.addEventListener('input', () => { tagSearchText = els.tagSearch.value.trim().toLowerCase(); renderTagScroll(lastTagSourceArr); });
+els.clearFilters.addEventListener('click', () => {
+  activeTagFilters = new Set();
+  yearFilterRange = 'all';
+  tagSearchText = '';
+  els.tagSearch.value = '';
+  render();
+});
+
+let lastTagSourceArr = [];
+
+function renderTagScroll(arr) {
+  lastTagSourceArr = arr;
   const allTags = new Set();
   arr.forEach(it => (it.tags || []).forEach(t => allTags.add(t)));
-  els.tagBar.innerHTML = '';
-  if (allTags.size === 0) { els.tagBar.style.display = 'none'; return; }
-  els.tagBar.style.display = 'flex';
-  [...allTags].sort().forEach(tag => {
+  const visible = [...allTags].sort().filter(t => !tagSearchText || t.toLowerCase().includes(tagSearchText));
+  els.tagScroll.innerHTML = '';
+  if (visible.length === 0) {
+    els.tagScroll.innerHTML = `<div class="hint" style="margin:0;">${allTags.size === 0 ? 'No tags yet — add some from Edit.' : 'No tags match your search.'}</div>`;
+    return;
+  }
+  visible.forEach(tag => {
     const chip = document.createElement('button');
     chip.className = 'tag-chip' + (activeTagFilters.has(tag) ? ' active' : '');
     chip.textContent = tag;
@@ -1126,30 +1241,44 @@ function renderTagBar(arr) {
       if (activeTagFilters.has(tag)) activeTagFilters.delete(tag); else activeTagFilters.add(tag);
       render();
     });
-    els.tagBar.appendChild(chip);
+    els.tagScroll.appendChild(chip);
   });
-  if (activeTagFilters.size > 0) {
-    const clear = document.createElement('button');
-    clear.className = 'tag-chip clear';
-    clear.textContent = 'Clear filters';
-    clear.addEventListener('click', () => { activeTagFilters = new Set(); render(); });
-    els.tagBar.appendChild(clear);
-  }
+}
+
+function renderYearFilters() {
+  els.yearFilters.innerHTML = '';
+  YEAR_RANGES.forEach(r => {
+    const btn = document.createElement('button');
+    btn.className = yearFilterRange === r.key ? 'active' : '';
+    btn.textContent = r.label;
+    btn.addEventListener('click', () => { yearFilterRange = r.key; render(); });
+    els.yearFilters.appendChild(btn);
+  });
+}
+
+function renderFilterPanel(arr) {
+  renderTagScroll(arr);
+  renderYearFilters();
+  const activeCount = activeTagFilters.size + (yearFilterRange !== 'all' ? 1 : 0);
+  els.filterToggle.textContent = activeCount > 0 ? `Filters (${activeCount})` : 'Filters';
+  els.filterToggle.classList.toggle('has-active', activeCount > 0);
 }
 
 /* ---------- Render ---------- */
 function renderPlatformField() { els['f-platform-field'].classList.toggle('hidden', !currentTabDef().hasPlatform); }
 function renderCoverControls() {
-  const hasKey = activeTab === 'games' ? !!settings.rawgKey : !!settings.tmdbKey;
+  const hasKey = activeTab === 'games' ? !!settings.sgdbKey : !!settings.tmdbKey;
   els.fetchCoverBtn.style.display = hasKey ? '' : 'none';
 }
 function renderStats() {
   const n = activeArr().length;
-  els.stats.innerHTML = n ? `<strong>${n}</strong> ${listMode === 'ranked' ? 'ranked' : 'on watchlist'}` : '';
+  const label = listMode === 'ranked' ? 'ranked' : listMode === 'watch' ? 'on watchlist' : 'honorable mentions';
+  els.stats.innerHTML = n ? `<strong>${n}</strong> ${label}` : '';
 }
 
 function render() {
   renderTabs();
+  renderSubTabs();
   renderPlatformField();
   renderCoverControls();
   renderStats();
@@ -1157,32 +1286,37 @@ function render() {
 
   const tabDef = currentTabDef();
   const fullArr = activeArr();
-  const filtered = activeTagFilters.size === 0
-    ? fullArr
-    : fullArr.filter(it => (it.tags || []).some(t => activeTagFilters.has(t)));
+  const filtered = fullArr.filter(it => {
+    const tagOk = activeTagFilters.size === 0 || (it.tags || []).some(t => activeTagFilters.has(t));
+    return tagOk && yearMatches(it);
+  });
 
-  renderTagBar(fullArr);
+  renderFilterPanel(fullArr);
 
   els.list.innerHTML = '';
 
   if (!fullArr.length) {
+    const emptyLabel = listMode === 'ranked' ? 'Nothing ranked yet' : listMode === 'watch' ? 'Nothing on the watchlist yet' : 'No honorable mentions yet';
     els.list.innerHTML = `<div class="empty">
-      <div class="big">${listMode === 'ranked' ? 'Nothing ranked yet' : 'Nothing on the watchlist yet'}</div>
+      <div class="big">${emptyLabel}</div>
       <div>Use Manage → Add, or Bulk import, to get started.</div>
     </div>`;
     return;
   }
   if (!filtered.length) {
-    els.list.innerHTML = `<div class="empty"><div class="big">No matches</div><div>No items with the selected tags.</div></div>`;
+    els.list.innerHTML = `<div class="empty"><div class="big">No matches</div><div>No items match the selected filters.</div></div>`;
     return;
   }
+
+  const unranked = listMode !== 'ranked';
 
   filtered.forEach((item) => {
     const idx = fullArr.indexOf(item);
     const row = document.createElement('div');
-    row.className = 'row ' + tabDef.cls + (listMode === 'watch' ? ' row-watch' : '');
+    row.className = 'row ' + tabDef.cls + (unranked ? ' row-watch' : '');
     const metaParts = [];
     if (item.platform) metaParts.push(item.platform);
+    if (item.year) metaParts.push(String(item.year));
 
     const rankHtml = listMode === 'ranked'
       ? (() => { const tier = tierInfo(idx); return `<div class="rank-badge ${tier.cls}">${tier.label}</div>`; })()
@@ -1194,8 +1328,12 @@ function render() {
         <button class="icon-btn" data-action="compare" data-id="${item.id}" title="Reposition by comparison">⇄</button>
         <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
         <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
-      ` : `
+      ` : listMode === 'watch' ? `
         <button class="icon-btn rank-it" data-action="rankit" data-id="${item.id}" title="Move to ranked list">Rank it</button>
+        <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
+        <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
+      ` : `
+        <button class="icon-btn rank-it" data-action="rankit" data-id="${item.id}" title="Promote to ranked list">Promote</button>
         <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
         <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
       `;
@@ -1207,7 +1345,6 @@ function render() {
         <div class="title">${escapeHtml(item.title)}</div>
         ${metaParts.length ? `<div class="meta">${escapeHtml(metaParts.join(' · '))}</div>` : ''}
         ${item.notes ? `<div class="notes">${escapeHtml(item.notes)}</div>` : ''}
-        ${(item.tags && item.tags.length) ? `<div class="tags">${item.tags.map(t => `<span>${escapeHtml(t)}</span>`).join('')}</div>` : ''}
       </div>
       <div class="row-actions">${actionsHtml}</div>
     `;
