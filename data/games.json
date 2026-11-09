@@ -82,7 +82,11 @@
     "title": "Bioshock",
     "platform": "",
     "cover": "",
-    "tags": [],
+    "tags": [
+      "bioshock",
+      "horror",
+      "old"
+    ],
     "notes": ""
   },
   {
