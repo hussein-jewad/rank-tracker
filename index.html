@@ -19,6 +19,8 @@
     --gold: #e8c05a;
     --silver: #c7ccd4;
     --bronze: #cd8a52;
+    --cover-w: 100px;
+    --cover-h: 140px;
   }
 
   * { box-sizing: border-box; }
@@ -31,46 +33,27 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .wrap { max-width: 1000px; margin: 0 auto; padding: 48px 24px 60px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 28px 60px; }
 
   header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
   }
 
   h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 34px;
-    margin: 0;
-    letter-spacing: -0.01em;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 36px;
+    margin: 0; letter-spacing: -0.01em;
   }
 
   .header-right { display: flex; align-items: center; gap: 14px; }
-  .stats { color: var(--ink-dim); font-size: 14px; }
+  .stats { color: var(--ink-dim); font-size: 15px; }
   .stats strong { color: var(--ink); font-weight: 600; }
 
-  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-dim); display: inline-block; margin-right: 6px; }
-  .sync-dot.ok { background: var(--teal); }
-  .sync-dot.err { background: var(--red); }
-
-  /* Shared banner */
+  /* Banners */
   .shared-banner, .setup-banner {
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--bg-raised);
-    border: 1px solid var(--amber);
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    gap: 12px;
-    flex-wrap: wrap;
+    display: none; justify-content: space-between; align-items: center;
+    background: var(--bg-raised); border: 1px solid var(--amber); border-radius: 6px;
+    padding: 12px 16px; margin-bottom: 20px; font-size: 14px; gap: 12px; flex-wrap: wrap;
   }
   .shared-banner a, .setup-banner a, .setup-banner button.link-btn {
     color: var(--amber); text-decoration: none; font-weight: 500; white-space: nowrap;
@@ -84,57 +67,63 @@
 
   .tab {
     background: none; border: none; color: var(--ink-dim);
-    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500;
-    padding: 10px 4px; margin-right: 22px; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;
+    padding: 10px 4px; margin-right: 24px; cursor: pointer;
     border-bottom: 2px solid transparent; position: relative; top: 1px;
   }
   .tab.active { color: var(--ink); border-bottom-color: var(--amber); }
 
   .manage-btn {
     background: var(--bg-raised); color: var(--ink); border: 1px solid var(--line);
-    border-radius: 6px; padding: 8px 14px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+    border-radius: 6px; padding: 9px 15px; font-size: 14px; font-weight: 500; cursor: pointer;
     display: flex; align-items: center; gap: 6px; height: fit-content; margin-bottom: 8px;
   }
   .manage-btn:hover { border-color: var(--ink-dim); }
 
-  /* Sub-tabs (ranked / watch) */
-  .sub-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+  /* Sub-tabs */
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
   .subtab {
     background: var(--bg-raised); border: 1px solid var(--line); color: var(--ink-dim);
-    padding: 7px 14px; border-radius: 100px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+    padding: 8px 15px; border-radius: 100px; font-size: 14px; font-weight: 500; cursor: pointer;
   }
   .subtab.active { color: var(--bg); background: var(--teal); border-color: var(--teal); }
 
-  /* Filters (tags + year) */
-  .filter-trigger-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
-  .filter-toggle-btn {
-    background: var(--bg-raised); color: var(--ink); border: 1px solid var(--line);
-    border-radius: 6px; padding: 8px 14px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+  /* Filters panel */
+  .filters-toggle-row { margin-bottom: 14px; }
+  .filters-toggle {
+    background: var(--bg-raised); border: 1px solid var(--line); color: var(--ink-dim);
+    padding: 7px 14px; border-radius: 100px; font-size: 13.5px; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px;
   }
-  .filter-toggle-btn.has-active { border-color: var(--amber); color: var(--amber); }
-  .filter-panel {
-    display: none; background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
-    padding: 16px; margin-bottom: 18px;
+  .filters-toggle.has-active { color: var(--amber); border-color: var(--amber); }
+  .filters-toggle .count {
+    background: var(--amber); color: var(--bg); border-radius: 100px;
+    font-size: 11px; font-weight: 700; padding: 1px 7px;
   }
-  .filter-panel.open { display: block; }
-  .filter-panel label { display: block; margin-bottom: 8px; }
-  #tagSearch { margin-bottom: 10px; }
-  .tag-scroll {
-    max-height: 150px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px;
-    padding: 2px 2px 4px; margin-bottom: 14px; border-bottom: 1px solid var(--line);
+
+  .filters-panel {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px;
+    padding: 16px 18px; margin-bottom: 18px; display: none;
+  }
+  .filters-panel.open { display: block; }
+
+  .filters-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .filters-row:last-child { margin-bottom: 0; }
+  .filters-row label { font-size: 12.5px; color: var(--ink-dim); white-space: nowrap; }
+  .filters-row input[type=number] { width: 90px; }
+  .filters-row input[type=text] { max-width: 220px; }
+
+  .tag-chip-list {
+    display: flex; flex-wrap: wrap; gap: 6px; max-height: 110px; overflow-y: auto;
+    padding: 2px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 2px;
   }
   .tag-chip {
-    font-size: 12px; color: var(--ink-dim); background: var(--bg);
-    border: 1px solid var(--line); padding: 4px 11px; border-radius: 100px; cursor: pointer;
-  }
-  .tag-chip.active { color: var(--bg); background: var(--amber); border-color: var(--amber); }
-  .year-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .year-filters button {
     font-size: 12.5px; color: var(--ink-dim); background: var(--bg);
     border: 1px solid var(--line); padding: 5px 12px; border-radius: 100px; cursor: pointer;
   }
-  .year-filters button.active { color: var(--bg); background: var(--teal); border-color: var(--teal); }
-  .filter-panel-actions { display: flex; justify-content: flex-end; }
+  .tag-chip.active { color: var(--bg); background: var(--amber); border-color: var(--amber); }
+
+  .clear-filters-btn { color: var(--red); background: none; border: 1px solid var(--red); border-radius: 100px; padding: 6px 13px; font-size: 12.5px; cursor: pointer; }
 
   /* Drawer */
   .drawer-overlay {
@@ -144,7 +133,7 @@
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
   .drawer {
-    position: fixed; top: 0; right: 0; height: 100%; width: min(440px, 92vw);
+    position: fixed; top: 0; right: 0; height: 100%; width: min(460px, 92vw);
     background: var(--bg); border-left: 1px solid var(--line);
     transform: translateX(100%); transition: transform 0.25s ease; z-index: 90;
     overflow-y: auto; padding: 24px;
@@ -156,7 +145,6 @@
   .drawer-close { background: none; border: none; color: var(--ink-dim); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px 8px; }
   .drawer-close:hover { color: var(--ink); }
 
-  /* Collapsible sections */
   .section {
     background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px;
     padding: 18px 20px; margin-bottom: 16px;
@@ -186,7 +174,7 @@
 
   .cover-row { display: flex; gap: 8px; }
   .cover-row input { flex: 1; }
-  .cover-preview { max-height: 90px; border-radius: 4px; margin-top: 8px; display: none; border: 1px solid var(--line); }
+  .cover-preview { max-height: 110px; border-radius: 4px; margin-top: 8px; display: none; border: 1px solid var(--line); }
 
   .form-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
 
@@ -211,34 +199,36 @@
   .list { display: flex; flex-direction: column; margin-top: 4px; }
 
   .row {
-    display: grid; align-items: center; gap: 22px;
-    padding: 26px 10px; border-bottom: 1px solid var(--line); min-height: 148px;
+    display: grid; align-items: center; gap: 20px;
+    padding: 28px 18px; border-bottom: 1px solid var(--line); min-height: 160px;
   }
   .row:first-child { border-top: 1px solid var(--line); }
-  .row-media { grid-template-columns: 84px 52px 1fr auto; }
-  .row-watch.row-media { grid-template-columns: 84px 1fr auto; }
+  .row-ranked { grid-template-columns: var(--cover-w) 52px 1fr auto; }
+  .row-flat { grid-template-columns: var(--cover-w) 1fr auto; }
 
-  .cover-thumb { border-radius: 5px; overflow: hidden; background: var(--bg); border: 1px solid var(--line); flex-shrink: 0; }
-  .row-media .cover-thumb { width: 84px; height: 120px; }
+  .cover-thumb {
+    width: var(--cover-w); height: var(--cover-h); border-radius: 6px; overflow: hidden;
+    background: var(--bg); border: 1px solid var(--line); flex-shrink: 0;
+  }
   .cover-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .rank-badge {
     font-family: 'Fraunces', serif; font-weight: 700; font-size: 19px;
-    width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    color: var(--ink-dim); flex-shrink: 0;
+    width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-dim);
   }
-  .tier-gold { background: linear-gradient(135deg,#f6dd96,var(--gold)); color: #2a1d02; font-weight: 800; font-size: 23px; }
-  .tier-silver { background: linear-gradient(135deg,#eef1f4,var(--silver)); color: #1b1f2a; font-weight: 800; font-size: 23px; }
-  .tier-bronze { background: linear-gradient(135deg,#e7b084,var(--bronze)); color: #2a1502; font-weight: 800; font-size: 23px; }
+  .tier-gold { background: linear-gradient(135deg,#f6dd96,var(--gold)); color: #2a1d02; font-weight: 800; font-size: 25px; }
+  .tier-silver { background: linear-gradient(135deg,#eef1f4,var(--silver)); color: #1b1f2a; font-weight: 800; font-size: 25px; }
+  .tier-bronze { background: linear-gradient(135deg,#e7b084,var(--bronze)); color: #2a1502; font-weight: 800; font-size: 25px; }
   .tier-top5 { color: var(--amber); font-weight: 700; }
   .tier-top10 { color: var(--teal); }
   .tier-top20 { color: var(--ink); }
 
-  .item-main .title { font-size: 20px; font-weight: 600; }
+  .item-main .title { font-size: 21px; font-weight: 600; font-family: 'Fraunces', serif; }
   .item-main .meta { font-size: 14.5px; color: var(--ink-dim); margin-top: 4px; }
-  .item-main .notes { font-size: 14.5px; color: var(--ink-dim); margin-top: 8px; line-height: 1.5; }
+  .item-main .notes { font-size: 15px; color: var(--ink-dim); margin-top: 8px; line-height: 1.45; max-width: 60ch; }
 
-  .row-actions { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .row-actions { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
 
   .icon-btn {
     background: none; border: none; color: var(--ink-dim); font-size: 14.5px;
@@ -250,8 +240,8 @@
   .icon-btn.confirm-danger { color: var(--red); font-weight: 600; }
   .icon-btn.rank-it { color: var(--amber); font-weight: 600; }
 
-  .empty { text-align: center; padding: 60px 20px; color: var(--ink-dim); }
-  .empty .big { font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+  .empty { text-align: center; padding: 70px 20px; color: var(--ink-dim); }
+  .empty .big { font-family: 'Fraunces', serif; font-size: 22px; color: var(--ink); margin-bottom: 6px; }
 
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
@@ -290,8 +280,11 @@
   footer a { color: var(--teal); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
-  @media (max-width: 520px) {
+  @media (max-width: 640px) {
+    :root { --cover-w: 76px; --cover-h: 106px; }
     .fields { grid-template-columns: 1fr; }
+    .row { padding: 18px 10px; gap: 14px; min-height: 0; }
+    .item-main .title { font-size: 17.5px; }
   }
 </style>
 </head>
@@ -321,24 +314,30 @@
 
   <div class="sub-tabs" id="subTabs"></div>
 
-  <div class="filter-trigger-row">
-    <button class="filter-toggle-btn" id="filterToggle">Filters</button>
+  <div class="filters-toggle-row">
+    <button class="filters-toggle" id="filtersToggle">Filters <span class="count" id="filtersCount" style="display:none;"></span></button>
   </div>
-  <div class="filter-panel" id="filterPanel">
-    <label for="tagSearch">Search tags</label>
-    <input type="text" id="tagSearch" placeholder="Type to find a tag...">
-    <div class="tag-scroll" id="tagScroll"></div>
-    <label>Year</label>
-    <div class="year-filters" id="yearFilters"></div>
-    <div class="filter-panel-actions">
-      <button class="btn-ghost" id="clearFilters">Clear all filters</button>
+
+  <div class="filters-panel" id="filtersPanel">
+    <div class="filters-row">
+      <label for="year-from">Year from</label>
+      <input type="number" id="year-from" placeholder="e.g. 1990">
+      <label for="year-to">to</label>
+      <input type="number" id="year-to" placeholder="e.g. 2010">
+      <button class="btn-secondary" id="applyYearFilter">Apply</button>
+      <button class="clear-filters-btn" id="clearAllFilters">Clear all filters</button>
     </div>
+    <div class="filters-row">
+      <label for="tag-search">Search tags</label>
+      <input type="text" id="tag-search" placeholder="Type to filter tags...">
+    </div>
+    <div class="tag-chip-list" id="tagChipList"></div>
   </div>
 
   <div class="list" id="list"></div>
 
   <footer id="attributionFooter" style="display:none;">
-    Game art via <a href="https://www.steamgriddb.com" target="_blank" rel="noopener noreferrer">SteamGridDB</a>. Movie &amp; series data via <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
+    Data and images provided by <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">RAWG</a>, <a href="https://www.steamgriddb.com" target="_blank" rel="noopener noreferrer">SteamGridDB</a> and <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
   </footer>
 </div>
 
@@ -367,7 +366,8 @@
         <div class="field full">
           <div class="hint">Create a fine-grained token at <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>, scoped to just this repo, with "Contents: Read and write" permission. It's stored only in this browser.</div>
         </div>
-        <div class="field full"><label>SteamGridDB API key (Games covers)</label><input type="text" id="sgdb-key" placeholder="Paste SteamGridDB key here"></div>
+        <div class="field full"><label>SteamGridDB API key (Games covers — recommended)</label><input type="text" id="sgdb-key" placeholder="Paste SteamGridDB key here"></div>
+        <div class="field full"><label>RAWG API key (Games, fallback — often down)</label><input type="text" id="rawg-key" placeholder="Paste RAWG key here"></div>
         <div class="field full"><label>TMDb API key (Movies &amp; Series covers)</label><input type="text" id="tmdb-key" placeholder="Paste TMDb key here"></div>
         <div class="form-actions">
           <button class="btn-secondary" id="syncNow">Sync now</button>
@@ -375,8 +375,10 @@
         </div>
       </div>
       <div class="hint">
-        Games: free key at <a href="https://www.steamgriddb.com/profile/preferences/api" target="_blank" rel="noopener">steamgriddb.com → Preferences → API</a> (RAWG's API has been unreliable, so covers now use SteamGridDB — the same community art database used by Steam library tools) ·
-        Movies/Series: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>
+        SteamGridDB (recommended for games, gives consistent cover art): <a href="https://www.steamgriddb.com/profile/preferences/api" target="_blank" rel="noopener">steamgriddb.com/profile/preferences/api</a> ·
+        RAWG: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io/apidocs</a> ·
+        TMDb: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>.
+        If a cover source fails to load due to your browser blocking the request, paste a cover URL manually instead — there's no way around that from a page with no server of its own.
       </div>
     </div>
   </div>
@@ -393,6 +395,7 @@
       <div class="fields">
         <div class="field full"><label for="f-title">Title</label><input type="text" id="f-title"></div>
         <div class="field" id="f-platform-field"><label for="f-platform">Platform (optional)</label><input type="text" id="f-platform" placeholder="e.g. PC"></div>
+        <div class="field"><label for="f-year">Year (optional)</label><input type="number" id="f-year" placeholder="e.g. 2015"></div>
         <div class="field full">
           <label for="f-cover">Cover image URL (optional)</label>
           <div class="cover-row">
@@ -401,7 +404,6 @@
           </div>
           <img id="coverPreview" class="cover-preview">
         </div>
-        <div class="field"><label for="f-year">Year (optional)</label><input type="number" id="f-year" placeholder="e.g. 2015" min="1900" max="2100"></div>
         <div class="field full"><label for="f-tags">Tags (comma separated, optional)</label><input type="text" id="f-tags" placeholder="e.g. horror, survival"></div>
         <div class="field full"><label for="f-notes">Notes (optional)</label><textarea id="f-notes" style="min-height: 50px;"></textarea></div>
         <div class="form-actions">
@@ -464,39 +466,37 @@
       <button class="btn-primary" id="copyShareLink">Copy link</button>
       <button class="btn-ghost" id="closeShare">Close</button>
     </div>
-    <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now, not any future changes you make.</div>
+    <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now, not any future changes you make. Only the Ranked view of this tab is shared.</div>
   </div>
 </div>
 
 <script>
 const TABS = [
-  { key: 'games', label: 'Games', hasPlatform: true, cls: 'row-media' },
-  { key: 'movies', label: 'Movies', hasPlatform: false, cls: 'row-media' },
-  { key: 'series', label: 'Series', hasPlatform: false, cls: 'row-media' },
+  { key: 'games', label: 'Games', hasPlatform: true },
+  { key: 'movies', label: 'Movies', hasPlatform: false },
+  { key: 'series', label: 'Series', hasPlatform: false },
 ];
-const SUBTABS = [
-  { mode: 'ranked', label: 'Ranked' },
-  { mode: 'watch', label: 'To watch / play' },
-  { mode: 'honorable', label: 'Honorable mention', gamesOnly: true },
-];
+const SIDE_MODES = ['watch', 'honor'];
 
 let activeTab = 'games';
-let listMode = 'ranked'; // 'ranked' | 'watch' | 'honorable'
+let listMode = 'ranked'; // 'ranked' | 'watch' | 'honor'
 let lists = { games: [], movies: [], series: [] };
 let watch = { games: [], movies: [], series: [] };
-let honorable = { games: [] };
+let honor = { games: [], movies: [], series: [] };
+let dataStores = { ranked: lists, watch: watch, honor: honor };
+
 let editingId = null;
-let settings = { tmdbKey: '', sgdbKey: '' };
+let settings = { tmdbKey: '', rawgKey: '', sgdbKey: '' };
 let github = { owner: '', repo: '', branch: 'main', token: '' };
 const coverFetchAttempted = new Set();
+
 let activeTagFilters = new Set();
-let yearFilterRange = 'all';
-let tagSearchText = '';
+let tagSearchQuery = '';
+let yearFilter = { from: null, to: null };
 
 // --- GitHub sync state ---
 let shas = {};
 let writeChain = Promise.resolve();
-let lastSyncOk = null;
 
 // --- comparison engine state ---
 let activeGen = null, activeGenType = null, activeGenContext = {};
@@ -509,26 +509,20 @@ const els = {};
 ['stats','tabs','subTabs','openDrawer','drawer','drawerOverlay','drawerClose',
  'sharedBanner','sharedBannerLabel','exitShared','setupBanner','setupBannerBtn',
  'settingsSection','settingsToggle','gh-owner','gh-repo','gh-branch','gh-token','syncNow',
- 'tmdb-key','sgdb-key','saveSettings','attributionFooter',
+ 'tmdb-key','rawg-key','sgdb-key','saveSettings','attributionFooter',
  'addSection','addToggle','addLabel','addSub','cancelAdd','addToBottom','addByCompare',
- 'f-title','f-platform-field','f-platform','f-cover','fetchCoverBtn','coverPreview','f-year','f-tags','f-notes',
+ 'f-title','f-platform-field','f-platform','f-year','f-cover','fetchCoverBtn','coverPreview','f-tags','f-notes',
  'bulkSection','bulkToggle','bulkSub','bulkHint','cancelBulk','startBulk','startBulkInstant','bulk-text',
  'shareBtn','shareOverlay','shareLinkInput','copyShareLink','closeShare',
- 'filterToggle','filterPanel','tagSearch','tagScroll','yearFilters','clearFilters',
+ 'filtersToggle','filtersCount','filtersPanel','year-from','year-to','applyYearFilter','clearAllFilters','tag-search','tagChipList',
  'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
  .forEach(id => els[id] = document.getElementById(id));
 
 function currentTabDef() { return TABS.find(t => t.key === activeTab); }
-function activeArr() {
-  if (listMode === 'ranked') return lists[activeTab];
-  if (listMode === 'watch') return watch[activeTab];
-  return honorable[activeTab] || [];
-}
-function dataKey(tabKey, mode) {
-  if (mode === 'watch') return 'watch-' + tabKey;
-  if (mode === 'honorable') return 'honorable-' + tabKey;
-  return tabKey;
-}
+function activeArr() { return dataStores[listMode][activeTab]; }
+function currentArrRef() { return activeArr(); }
+function dataKey(tabKey, mode) { return mode === 'ranked' ? tabKey : mode + '-' + tabKey; }
+function currentSave() { return () => queueSave(dataKey(activeTab, listMode), dataStores[listMode][activeTab]); }
 
 function uid() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
 
@@ -540,25 +534,22 @@ function showToast(msg) {
 
 function escapeHtml(str) {
   return String(str == null ? '' : str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 /* ---------- Local settings (API keys + GitHub config) ---------- */
 function loadSettings() {
   try {
     const raw = localStorage.getItem('ranktracker:settings');
-    settings = raw ? JSON.parse(raw) : { tmdbKey: '', sgdbKey: '' };
-    if (settings.rawgKey && !settings.sgdbKey) delete settings.rawgKey; // drop retired RAWG key
-  } catch (e) { settings = { tmdbKey: '', sgdbKey: '' }; }
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '', sgdbKey: '' };
+  } catch (e) { settings = { tmdbKey: '', rawgKey: '', sgdbKey: '' }; }
   try {
     const raw = localStorage.getItem('ranktracker:github');
     github = raw ? JSON.parse(raw) : { owner: '', repo: '', branch: 'main', token: '' };
   } catch (e) { github = { owner: '', repo: '', branch: 'main', token: '' }; }
   els['tmdb-key'].value = settings.tmdbKey || '';
+  els['rawg-key'].value = settings.rawgKey || '';
   els['sgdb-key'].value = settings.sgdbKey || '';
   els['gh-owner'].value = github.owner || '';
   els['gh-repo'].value = github.repo || '';
@@ -568,13 +559,14 @@ function loadSettings() {
 }
 
 function renderAttributionFooter() {
-  els.attributionFooter.style.display = (settings.tmdbKey || settings.sgdbKey) ? '' : 'none';
+  els.attributionFooter.style.display = (settings.tmdbKey || settings.rawgKey || settings.sgdbKey) ? '' : 'none';
 }
 
 function githubReady() { return !!(github.owner && github.repo && github.token); }
 
 function saveSettingsFn() {
   settings.tmdbKey = els['tmdb-key'].value.trim();
+  settings.rawgKey = els['rawg-key'].value.trim();
   settings.sgdbKey = els['sgdb-key'].value.trim();
   const prevReady = githubReady();
   github.owner = els['gh-owner'].value.trim();
@@ -592,9 +584,7 @@ function saveSettingsFn() {
   if (githubReady() && !prevReady) initialLoad();
 }
 
-function renderSetupBanner() {
-  document.getElementById('setupBanner').style.display = githubReady() ? 'none' : 'flex';
-}
+function renderSetupBanner() { els.setupBanner.style.display = githubReady() ? 'none' : 'flex'; }
 
 /* ---------- GitHub Contents API ---------- */
 function ghPath(key) { return 'data/' + key + '.json'; }
@@ -638,14 +628,13 @@ function queueSave(key, data) {
   if (!githubReady()) { showToast('Connect GitHub in Settings to save'); openDrawerTo('settingsSection'); return; }
   writeChain = writeChain
     .then(() => ghWriteTab(key, data))
-    .then(() => { lastSyncOk = true; })
-    .catch(e => { lastSyncOk = false; showToast('Save to GitHub failed: ' + e.message); });
+    .catch(e => { showToast('Save to GitHub failed: ' + e.message); });
   return writeChain;
 }
 
 function saveTab(tabKey) { queueSave(dataKey(tabKey, 'ranked'), lists[tabKey]); }
 function saveWatchTab(tabKey) { queueSave(dataKey(tabKey, 'watch'), watch[tabKey]); }
-function saveHonorableTab(tabKey) { queueSave(dataKey(tabKey, 'honorable'), honorable[tabKey]); }
+function saveHonorTab(tabKey) { queueSave(dataKey(tabKey, 'honor'), honor[tabKey]); }
 
 async function initialLoad() {
   if (!githubReady()) { render(); return; }
@@ -655,7 +644,7 @@ async function initialLoad() {
       lists[t.key] = await ghReadTab(dataKey(t.key, 'ranked'));
       watch[t.key] = await ghReadTab(dataKey(t.key, 'watch'));
     }
-    honorable.games = await ghReadTab(dataKey('games', 'honorable'));
+    honor['games'] = await ghReadTab(dataKey('games', 'honor'));
     showToast('Loaded from GitHub');
   } catch (e) {
     showToast('Could not load from GitHub: ' + e.message);
@@ -666,14 +655,13 @@ async function initialLoad() {
 
 els.syncNow.addEventListener('click', initialLoad);
 
-/* ---------- TMDb / SteamGridDB covers ---------- */
-async function fetchSteamGridDbCover(title) {
+/* ---------- Cover + metadata fetching ---------- */
+async function fetchSteamGridCover(title) {
   const key = settings.sgdbKey;
   if (!key) return null;
-  const cleanTitle = title.replace(/\(\d{4}\)/g, '').trim();
   const headers = { 'Authorization': 'Bearer ' + key };
   try {
-    const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(cleanTitle)}`, { headers });
+    const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(title)}`, { headers });
     if (!searchRes.ok) return null;
     const searchData = await searchRes.json();
     const first = searchData.data && searchData.data[0];
@@ -681,42 +669,80 @@ async function fetchSteamGridDbCover(title) {
     const gridRes = await fetch(`https://www.steamgriddb.com/api/v2/grids/game/${first.id}?dimensions=600x900`, { headers });
     if (!gridRes.ok) return null;
     const gridData = await gridRes.json();
-    const grid = gridData.data && gridData.data[0];
-    if (grid && grid.url) return grid.url;
-  } catch (e) {}
-  return null;
+    const img = gridData.data && gridData.data[0];
+    return img ? img.url : null;
+  } catch (e) { return null; }
 }
 
-async function fetchTmdbCover(title, mediaType) {
-  const key = settings.tmdbKey;
+async function fetchRawgData(title) {
+  const key = settings.rawgKey;
   if (!key) return null;
+  const cleanTitle = title.replace(/\(\d{4}\)/g, '').trim();
+  try {
+    const res = await fetch(`https://api.rawg.io/api/games?key=${encodeURIComponent(key)}&search=${encodeURIComponent(cleanTitle)}&page_size=1`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const first = data.results && data.results[0];
+    if (!first) return null;
+    const year = first.released ? parseInt(first.released.slice(0, 4), 10) : null;
+    return { cover: first.background_image || null, year: year || null };
+  } catch (e) { return null; }
+}
+
+async function fetchGameData(title) {
+  let cover = null, year = null;
+  if (settings.sgdbKey) cover = await fetchSteamGridCover(title);
+  if (settings.rawgKey) {
+    const rawg = await fetchRawgData(title);
+    if (rawg) {
+      if (!cover) cover = rawg.cover;
+      if (rawg.year) year = rawg.year;
+    }
+  }
+  return { cover, year };
+}
+
+async function fetchTmdbData(title, mediaType) {
+  const key = settings.tmdbKey;
+  if (!key) return { cover: null, year: null };
   const cleanTitle = title.replace(/\(\d{4}\)/g, '').replace(/season\s*\d+/gi, '').trim();
   const endpoint = mediaType === 'series' ? 'tv' : 'movie';
   try {
     const res = await fetch(`https://api.themoviedb.org/3/search/${endpoint}?api_key=${encodeURIComponent(key)}&query=${encodeURIComponent(cleanTitle)}`);
-    if (!res.ok) return null;
+    if (!res.ok) return { cover: null, year: null };
     const data = await res.json();
     const first = data.results && data.results[0];
-    if (first && first.poster_path) return 'https://image.tmdb.org/t/p/w342' + first.poster_path;
-  } catch (e) {}
-  return null;
+    if (!first) return { cover: null, year: null };
+    const cover = first.poster_path ? 'https://image.tmdb.org/t/p/w342' + first.poster_path : null;
+    const dateStr = first.release_date || first.first_air_date || '';
+    const year = dateStr ? parseInt(dateStr.slice(0, 4), 10) : null;
+    return { cover, year: year || null };
+  } catch (e) { return { cover: null, year: null }; }
 }
 
 async function fetchCoverApi(title, tabKey) {
-  return tabKey === 'games' ? fetchSteamGridDbCover(title) : fetchTmdbCover(title, tabKey);
+  return tabKey === 'games' ? fetchGameData(title) : fetchTmdbData(title, tabKey);
 }
 
 async function backfillCovers(tabKey) {
-  const hasKey = tabKey === 'games' ? !!settings.sgdbKey : !!settings.tmdbKey;
+  const hasKey = tabKey === 'games' ? !!(settings.sgdbKey || settings.rawgKey) : !!settings.tmdbKey;
   if (!hasKey) return;
-  const groups = [[lists[tabKey], () => saveTab(tabKey)], [watch[tabKey], () => saveWatchTab(tabKey)]];
-  if (tabKey === 'games') groups.push([honorable.games, () => saveHonorableTab('games')]);
-  for (const [arr, save] of groups) {
+  const pools = [lists[tabKey], watch[tabKey]];
+  if (tabKey === 'games') pools.push(honor[tabKey]);
+  for (const arr of pools) {
     for (const item of arr) {
       if (!item.cover && !coverFetchAttempted.has(item.id)) {
         coverFetchAttempted.add(item.id);
-        const url = await fetchCoverApi(item.title, tabKey);
-        if (url) { item.cover = url; save(); render(); }
+        const result = await fetchCoverApi(item.title, tabKey);
+        let changed = false;
+        if (result.cover) { item.cover = result.cover; changed = true; }
+        if (result.year && !item.year) { item.year = result.year; changed = true; }
+        if (changed) {
+          if (lists[tabKey].includes(item)) saveTab(tabKey);
+          else if (watch[tabKey].includes(item)) saveWatchTab(tabKey);
+          else if (honor[tabKey] && honor[tabKey].includes(item)) saveHonorTab(tabKey);
+          render();
+        }
       }
     }
   }
@@ -735,11 +761,13 @@ els.fetchCoverBtn.addEventListener('click', async () => {
   if (!title) { els['f-title'].focus(); showToast('Enter a title first'); return; }
   els.fetchCoverBtn.disabled = true;
   els.fetchCoverBtn.textContent = 'Fetching...';
-  const url = await fetchCoverApi(title, activeTab);
+  const result = await fetchCoverApi(title, activeTab);
   els.fetchCoverBtn.disabled = false;
   els.fetchCoverBtn.textContent = 'Auto-fetch';
-  if (url) { els['f-cover'].value = url; updateCoverPreview(); showToast('Cover found — you can still edit the URL'); }
-  else showToast('No cover found — try pasting a URL manually');
+  let found = false;
+  if (result.cover) { els['f-cover'].value = result.cover; updateCoverPreview(); found = true; }
+  if (result.year && !els['f-year'].value) { els['f-year'].value = result.year; found = true; }
+  showToast(found ? 'Found data — you can still edit it' : 'Nothing found — try pasting a URL manually');
 });
 
 /* ---------- Drawer ---------- */
@@ -765,7 +793,7 @@ function renderTabs() {
     btn.textContent = t.label;
     btn.addEventListener('click', () => {
       activeTab = t.key;
-      if (listMode === 'honorable' && activeTab !== 'games') listMode = 'ranked';
+      if (listMode === 'honor' && activeTab !== 'games') listMode = 'ranked';
       resetFilters();
       resetForm();
       render();
@@ -775,15 +803,22 @@ function renderTabs() {
   });
 }
 
+function subTabDefs() {
+  const base = [{ key: 'ranked', label: 'Ranked' }, { key: 'watch', label: 'To watch / play' }];
+  if (activeTab === 'games') base.push({ key: 'honor', label: 'Honorable mentions' });
+  return base;
+}
+
 function renderSubTabs() {
+  const defs = subTabDefs();
+  if (!defs.find(d => d.key === listMode)) listMode = 'ranked';
   els.subTabs.innerHTML = '';
-  SUBTABS.forEach(s => {
-    if (s.gamesOnly && activeTab !== 'games') return;
+  defs.forEach(d => {
     const btn = document.createElement('button');
-    btn.className = 'subtab' + (listMode === s.mode ? ' active' : '');
-    btn.textContent = s.label;
+    btn.className = 'subtab' + (listMode === d.key ? ' active' : '');
+    btn.textContent = d.label;
     btn.addEventListener('click', () => {
-      listMode = s.mode;
+      listMode = d.key;
       resetFilters();
       resetForm();
       render();
@@ -792,12 +827,51 @@ function renderSubTabs() {
   });
 }
 
-function resetFilters() {
-  activeTagFilters = new Set();
-  yearFilterRange = 'all';
-  tagSearchText = '';
-  els.tagSearch.value = '';
-  els.filterPanel.classList.remove('open');
+/* ---------- Filters ---------- */
+function resetFilters() { activeTagFilters = new Set(); tagSearchQuery = ''; yearFilter = { from: null, to: null }; els['tag-search'].value = ''; els['year-from'].value = ''; els['year-to'].value = ''; }
+
+els.filtersToggle.addEventListener('click', () => els.filtersPanel.classList.toggle('open'));
+els['tag-search'].addEventListener('input', () => { tagSearchQuery = els['tag-search'].value.trim().toLowerCase(); renderTagChips(activeArr()); });
+els.applyYearFilter.addEventListener('click', () => {
+  const from = els['year-from'].value.trim();
+  const to = els['year-to'].value.trim();
+  yearFilter.from = from ? parseInt(from, 10) : null;
+  yearFilter.to = to ? parseInt(to, 10) : null;
+  render();
+});
+els.clearAllFilters.addEventListener('click', () => { resetFilters(); render(); });
+
+function filterCount() {
+  return activeTagFilters.size + ((yearFilter.from || yearFilter.to) ? 1 : 0);
+}
+
+function renderFiltersToggle() {
+  const n = filterCount();
+  els.filtersToggle.classList.toggle('has-active', n > 0);
+  els.filtersCount.style.display = n > 0 ? '' : 'none';
+  els.filtersCount.textContent = n;
+}
+
+function renderTagChips(arr) {
+  const allTags = new Set();
+  arr.forEach(it => (it.tags || []).forEach(t => allTags.add(t)));
+  let tagList = [...allTags].sort();
+  if (tagSearchQuery) tagList = tagList.filter(t => t.toLowerCase().includes(tagSearchQuery));
+  els.tagChipList.innerHTML = '';
+  if (tagList.length === 0) {
+    els.tagChipList.innerHTML = `<span class="hint" style="margin:0;">${allTags.size === 0 ? 'No tags yet — add some from the Edit form.' : 'No tags match your search.'}</span>`;
+    return;
+  }
+  tagList.forEach(tag => {
+    const chip = document.createElement('button');
+    chip.className = 'tag-chip' + (activeTagFilters.has(tag) ? ' active' : '');
+    chip.textContent = tag;
+    chip.addEventListener('click', () => {
+      if (activeTagFilters.has(tag)) activeTagFilters.delete(tag); else activeTagFilters.add(tag);
+      render();
+    });
+    els.tagChipList.appendChild(chip);
+  });
 }
 
 /* ---------- Settings toggle ---------- */
@@ -818,49 +892,42 @@ function resetForm() {
   editingId = null;
   els['f-title'].value = '';
   els['f-platform'].value = '';
-  els['f-cover'].value = '';
   els['f-year'].value = '';
+  els['f-cover'].value = '';
   els['f-tags'].value = '';
   els['f-notes'].value = '';
   updateCoverPreview();
-  const unranked = listMode !== 'ranked';
-  els.addByCompare.style.display = unranked ? 'none' : '';
-  els.addToBottom.textContent = listMode === 'watch' ? 'Add to watchlist' : listMode === 'honorable' ? 'Add honorable mention' : 'Add to bottom';
+  const isRanked = listMode === 'ranked';
+  els.addByCompare.style.display = isRanked ? '' : 'none';
+  els.startBulk.style.display = isRanked ? '' : 'none';
+  if (listMode === 'ranked') {
+    els.addToBottom.textContent = 'Add to bottom';
+    els.addSub.textContent = 'Add to the bottom, or rank it by comparison';
+    els.bulkHint.textContent = 'Guided sort runs full comparisons, so if this list already has items, they\'ll be included too — best used to build a list from scratch. Covers fetch automatically afterward if you\'ve added an API key.';
+  } else if (listMode === 'watch') {
+    els.addToBottom.textContent = 'Add to watchlist';
+    els.addSub.textContent = 'Add something to watch or play later';
+    els.bulkHint.textContent = 'Paste titles and add them instantly — the watchlist isn\'t ranked.';
+  } else {
+    els.addToBottom.textContent = 'Add to honorable mentions';
+    els.addSub.textContent = 'Games you like but don\'t want in the main ranking';
+    els.bulkHint.textContent = 'Paste titles and add them instantly — honorable mentions aren\'t ranked against each other.';
+  }
   els.addLabel.textContent = 'Add';
-  els.addSub.textContent = listMode === 'watch' ? 'Add something to watch or play later'
-    : listMode === 'honorable' ? 'Didn\'t quite make the cut, but deserves a shoutout'
-    : 'Add to the bottom, or rank it by comparison';
-  els.startBulk.style.display = unranked ? 'none' : '';
-  els.bulkHint.textContent = unranked
-    ? 'Paste titles and add them instantly — this list isn\'t ranked by comparison.'
-    : 'Guided sort runs full comparisons, so if this list already has items, they\'ll be included too — best used to build a list from scratch. Covers fetch automatically afterward if you\'ve added an API key.';
 }
 
-function parseTags(str) {
-  return str.split(',').map(s => s.trim()).filter(Boolean);
-}
+function parseTags(str) { return str.split(',').map(s => s.trim()).filter(Boolean); }
 
 function readForm() {
   const yearVal = els['f-year'].value.trim();
   return {
     title: els['f-title'].value.trim(),
     platform: els['f-platform'].value.trim(),
-    cover: els['f-cover'].value.trim(),
     year: yearVal ? parseInt(yearVal, 10) : null,
+    cover: els['f-cover'].value.trim(),
     tags: parseTags(els['f-tags'].value),
     notes: els['f-notes'].value.trim(),
   };
-}
-
-function currentArrRef() {
-  if (listMode === 'ranked') return lists[activeTab];
-  if (listMode === 'watch') return watch[activeTab];
-  return honorable[activeTab];
-}
-function currentSave() {
-  if (listMode === 'ranked') return () => saveTab(activeTab);
-  if (listMode === 'watch') return () => saveWatchTab(activeTab);
-  return () => saveHonorableTab(activeTab);
 }
 
 els.addToBottom.addEventListener('click', () => {
@@ -884,7 +951,7 @@ els.addToBottom.addEventListener('click', () => {
 });
 
 els.addByCompare.addEventListener('click', () => {
-  if (listMode === 'watch') return;
+  if (listMode !== 'ranked') return;
   const data = readForm();
   if (!data.title) { els['f-title'].focus(); return; }
   const item = { id: uid(), ...data };
@@ -900,8 +967,8 @@ function editItem(id) {
   editingId = id;
   els['f-title'].value = item.title;
   els['f-platform'].value = item.platform || '';
-  els['f-cover'].value = item.cover || '';
   els['f-year'].value = item.year || '';
+  els['f-cover'].value = item.cover || '';
   els['f-tags'].value = (item.tags || []).join(', ');
   els['f-notes'].value = item.notes || '';
   updateCoverPreview();
@@ -959,14 +1026,13 @@ function repositionByCompare(id) {
   stepGen();
 }
 
-function moveToRanked(id) {
-  const fromMode = listMode;
-  const arr = fromMode === 'watch' ? watch[activeTab] : honorable[activeTab];
+function promoteToRanked(id) {
+  const arr = dataStores[listMode][activeTab];
   const idx = arr.findIndex(i => i.id === id);
   if (idx === -1) return;
   const item = arr[idx];
   arr.splice(idx, 1);
-  if (fromMode === 'watch') saveWatchTab(activeTab); else saveHonorableTab(activeTab);
+  currentSave()();
   render();
   startInsertFlow(activeTab, item);
 }
@@ -981,10 +1047,10 @@ function parseBulkLines() {
 els.startBulkInstant.addEventListener('click', () => {
   const lines = parseBulkLines();
   if (!lines.length) return;
-  const newItems = lines.map(t => ({ id: uid(), title: t, platform: '', cover: '', tags: [], notes: '' }));
+  const newItems = lines.map(t => ({ id: uid(), title: t, platform: '', year: null, cover: '', tags: [], notes: '' }));
   const arr = currentArrRef();
   const combined = arr.concat(newItems);
-  if (listMode === 'ranked') lists[activeTab] = combined; else watch[activeTab] = combined;
+  dataStores[listMode][activeTab] = combined;
   currentSave()();
   els['bulk-text'].value = '';
   els.bulkSection.classList.add('collapsed');
@@ -994,12 +1060,12 @@ els.startBulkInstant.addEventListener('click', () => {
 });
 
 els.startBulk.addEventListener('click', () => {
-  if (listMode === 'watch') return;
+  if (listMode !== 'ranked') return;
   const lines = parseBulkLines();
   if (lines.length === 0) return;
   const existing = lists[activeTab];
   const proceed = () => {
-    const newItems = lines.map(t => ({ id: uid(), title: t, platform: '', cover: '', tags: [], notes: '' }));
+    const newItems = lines.map(t => ({ id: uid(), title: t, platform: '', year: null, cover: '', tags: [], notes: '' }));
     const combined = existing.concat(newItems);
     els['bulk-text'].value = '';
     els.bulkSection.classList.add('collapsed');
@@ -1116,7 +1182,7 @@ els.modalCancel.addEventListener('click', () => { activeGen = null; activeGenTyp
 
 /* ---------- Share ---------- */
 function buildShareLink(tabKey) {
-  const items = lists[tabKey].map(it => ({ t: it.title, p: it.platform || '', c: it.cover || '', n: it.notes || '', g: it.tags || [] }));
+  const items = lists[tabKey].map(it => ({ t: it.title, p: it.platform || '', y: it.year || null, c: it.cover || '', n: it.notes || '' }));
   const payload = JSON.stringify({ tab: tabKey, items });
   const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(payload))));
   return location.origin + location.pathname + '#share=' + encoded;
@@ -1149,22 +1215,23 @@ function checkSharedMode() {
 }
 
 function renderSharedView(payload) {
-  const tabDef = TABS.find(t => t.key === payload.tab) || { label: payload.tab, cls: 'row-media' };
+  const tabDef = TABS.find(t => t.key === payload.tab) || { label: payload.tab };
   els.sharedBanner.style.display = 'flex';
   els.sharedBannerLabel.textContent = 'Shared ' + tabDef.label + ' ranking (read-only)';
   els.tabs.style.display = 'none';
   document.getElementById('openDrawer').style.display = 'none';
   els.subTabs.style.display = 'none';
-  els.tagBar.style.display = 'none';
+  document.querySelector('.filters-toggle-row').style.display = 'none';
   els.stats.textContent = payload.items.length + ' ranked';
 
   els.list.innerHTML = '';
   if (!payload.items.length) { els.list.innerHTML = `<div class="empty"><div class="big">Nothing here</div></div>`; return; }
   payload.items.forEach((item, idx) => {
     const row = document.createElement('div');
-    row.className = 'row ' + tabDef.cls;
+    row.className = 'row row-ranked';
     const metaParts = [];
     if (item.p) metaParts.push(item.p);
+    if (item.y) metaParts.push(item.y);
     const tier = tierInfo(idx);
     row.innerHTML = `
       <div class="cover-thumb">${item.c ? `<img src="${escapeHtml(item.c)}" alt="" onerror="this.style.display='none'">` : ''}</div>
@@ -1173,7 +1240,6 @@ function renderSharedView(payload) {
         <div class="title">${escapeHtml(item.t)}</div>
         ${metaParts.length ? `<div class="meta">${escapeHtml(metaParts.join(' · '))}</div>` : ''}
         ${item.n ? `<div class="notes">${escapeHtml(item.n)}</div>` : ''}
-        ${(item.g && item.g.length) ? `<div class="tags">${item.g.map(t => `<span>${escapeHtml(t)}</span>`).join('')}</div>` : ''}
       </div>
       <div></div>
     `;
@@ -1194,86 +1260,22 @@ function tierInfo(idx) {
   return { cls: '', label: String(idx + 1) };
 }
 
-/* ---------- Filter panel (tags + year) ---------- */
-const YEAR_RANGES = [
-  { key: 'all', label: 'All years' },
-  { key: 'pre2010', label: 'Before 2010' },
-  { key: '2010s', label: '2010–2019' },
-  { key: '2020s', label: '2020+' },
-];
-
-function yearMatches(item) {
-  if (yearFilterRange === 'all') return true;
-  if (!item.year) return false;
-  if (yearFilterRange === 'pre2010') return item.year < 2010;
-  if (yearFilterRange === '2010s') return item.year >= 2010 && item.year <= 2019;
-  if (yearFilterRange === '2020s') return item.year >= 2020;
-  return true;
-}
-
-els.filterToggle.addEventListener('click', () => els.filterPanel.classList.toggle('open'));
-els.tagSearch.addEventListener('input', () => { tagSearchText = els.tagSearch.value.trim().toLowerCase(); renderTagScroll(lastTagSourceArr); });
-els.clearFilters.addEventListener('click', () => {
-  activeTagFilters = new Set();
-  yearFilterRange = 'all';
-  tagSearchText = '';
-  els.tagSearch.value = '';
-  render();
-});
-
-let lastTagSourceArr = [];
-
-function renderTagScroll(arr) {
-  lastTagSourceArr = arr;
-  const allTags = new Set();
-  arr.forEach(it => (it.tags || []).forEach(t => allTags.add(t)));
-  const visible = [...allTags].sort().filter(t => !tagSearchText || t.toLowerCase().includes(tagSearchText));
-  els.tagScroll.innerHTML = '';
-  if (visible.length === 0) {
-    els.tagScroll.innerHTML = `<div class="hint" style="margin:0;">${allTags.size === 0 ? 'No tags yet — add some from Edit.' : 'No tags match your search.'}</div>`;
-    return;
-  }
-  visible.forEach(tag => {
-    const chip = document.createElement('button');
-    chip.className = 'tag-chip' + (activeTagFilters.has(tag) ? ' active' : '');
-    chip.textContent = tag;
-    chip.addEventListener('click', () => {
-      if (activeTagFilters.has(tag)) activeTagFilters.delete(tag); else activeTagFilters.add(tag);
-      render();
-    });
-    els.tagScroll.appendChild(chip);
-  });
-}
-
-function renderYearFilters() {
-  els.yearFilters.innerHTML = '';
-  YEAR_RANGES.forEach(r => {
-    const btn = document.createElement('button');
-    btn.className = yearFilterRange === r.key ? 'active' : '';
-    btn.textContent = r.label;
-    btn.addEventListener('click', () => { yearFilterRange = r.key; render(); });
-    els.yearFilters.appendChild(btn);
-  });
-}
-
-function renderFilterPanel(arr) {
-  renderTagScroll(arr);
-  renderYearFilters();
-  const activeCount = activeTagFilters.size + (yearFilterRange !== 'all' ? 1 : 0);
-  els.filterToggle.textContent = activeCount > 0 ? `Filters (${activeCount})` : 'Filters';
-  els.filterToggle.classList.toggle('has-active', activeCount > 0);
-}
-
 /* ---------- Render ---------- */
 function renderPlatformField() { els['f-platform-field'].classList.toggle('hidden', !currentTabDef().hasPlatform); }
 function renderCoverControls() {
-  const hasKey = activeTab === 'games' ? !!settings.sgdbKey : !!settings.tmdbKey;
+  const hasKey = activeTab === 'games' ? !!(settings.sgdbKey || settings.rawgKey) : !!settings.tmdbKey;
   els.fetchCoverBtn.style.display = hasKey ? '' : 'none';
 }
 function renderStats() {
   const n = activeArr().length;
-  const label = listMode === 'ranked' ? 'ranked' : listMode === 'watch' ? 'on watchlist' : 'honorable mentions';
+  const label = listMode === 'ranked' ? 'ranked' : (listMode === 'watch' ? 'on watchlist' : 'honorable mentions');
   els.stats.innerHTML = n ? `<strong>${n}</strong> ${label}` : '';
+}
+
+function itemMatchesFilters(it) {
+  const tagOk = activeTagFilters.size === 0 || (it.tags || []).some(t => activeTagFilters.has(t));
+  const yearOk = (!yearFilter.from || (it.year && it.year >= yearFilter.from)) && (!yearFilter.to || (it.year && it.year <= yearFilter.to));
+  return tagOk && yearOk;
 }
 
 function render() {
@@ -1283,57 +1285,46 @@ function render() {
   renderCoverControls();
   renderStats();
   renderSetupBanner();
+  renderFiltersToggle();
 
-  const tabDef = currentTabDef();
   const fullArr = activeArr();
-  const filtered = fullArr.filter(it => {
-    const tagOk = activeTagFilters.size === 0 || (it.tags || []).some(t => activeTagFilters.has(t));
-    return tagOk && yearMatches(it);
-  });
-
-  renderFilterPanel(fullArr);
+  renderTagChips(fullArr);
+  const filtered = fullArr.filter(itemMatchesFilters);
 
   els.list.innerHTML = '';
 
   if (!fullArr.length) {
-    const emptyLabel = listMode === 'ranked' ? 'Nothing ranked yet' : listMode === 'watch' ? 'Nothing on the watchlist yet' : 'No honorable mentions yet';
-    els.list.innerHTML = `<div class="empty">
-      <div class="big">${emptyLabel}</div>
-      <div>Use Manage → Add, or Bulk import, to get started.</div>
-    </div>`;
+    const label = listMode === 'ranked' ? 'Nothing ranked yet' : (listMode === 'watch' ? 'Nothing on the watchlist yet' : 'No honorable mentions yet');
+    els.list.innerHTML = `<div class="empty"><div class="big">${label}</div><div>Use Manage → Add, or Bulk import, to get started.</div></div>`;
     return;
   }
   if (!filtered.length) {
-    els.list.innerHTML = `<div class="empty"><div class="big">No matches</div><div>No items match the selected filters.</div></div>`;
+    els.list.innerHTML = `<div class="empty"><div class="big">No matches</div><div>No items match the current filters.</div></div>`;
     return;
   }
 
-  const unranked = listMode !== 'ranked';
+  const isRanked = listMode === 'ranked';
 
   filtered.forEach((item) => {
     const idx = fullArr.indexOf(item);
     const row = document.createElement('div');
-    row.className = 'row ' + tabDef.cls + (unranked ? ' row-watch' : '');
+    row.className = 'row ' + (isRanked ? 'row-ranked' : 'row-flat');
     const metaParts = [];
     if (item.platform) metaParts.push(item.platform);
-    if (item.year) metaParts.push(String(item.year));
+    if (item.year) metaParts.push(item.year);
 
-    const rankHtml = listMode === 'ranked'
-      ? (() => { const tier = tierInfo(idx); return `<div class="rank-badge ${tier.cls}">${tier.label}</div>`; })()
-      : '';
+    const rankHtml = isRanked ? (() => { const tier = tierInfo(idx); return `<div class="rank-badge ${tier.cls}">${tier.label}</div>`; })() : '';
 
-    const actionsHtml = listMode === 'ranked' ? `
+    const actionsHtml = isRanked ? `
         <button class="icon-btn" data-action="up" data-id="${item.id}" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="icon-btn" data-action="down" data-id="${item.id}" ${idx === fullArr.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
         <button class="icon-btn" data-action="compare" data-id="${item.id}" title="Reposition by comparison">⇄</button>
         <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
         <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
-      ` : listMode === 'watch' ? `
-        <button class="icon-btn rank-it" data-action="rankit" data-id="${item.id}" title="Move to ranked list">Rank it</button>
-        <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
-        <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
       ` : `
-        <button class="icon-btn rank-it" data-action="rankit" data-id="${item.id}" title="Promote to ranked list">Promote</button>
+        <button class="icon-btn" data-action="up" data-id="${item.id}" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
+        <button class="icon-btn" data-action="down" data-id="${item.id}" ${idx === fullArr.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+        <button class="icon-btn rank-it" data-action="rankit" data-id="${item.id}" title="Move to ranked list">Rank it</button>
         <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
         <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
       `;
@@ -1361,7 +1352,7 @@ els.list.addEventListener('click', (e) => {
   else if (action === 'compare') repositionByCompare(id);
   else if (action === 'edit') editItem(id);
   else if (action === 'delete') deleteItem(id, btn);
-  else if (action === 'rankit') moveToRanked(id);
+  else if (action === 'rankit') promoteToRanked(id);
 });
 
 // --- Init ---
