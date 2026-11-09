@@ -9,14 +9,6 @@
     "year": 2009
   },
   {
-    "id": "i_1794182493682_tzu506",
-    "title": "Greatest Events of WWII in Colour",
-    "platform": "",
-    "cover": "https://image.tmdb.org/t/p/w342/dZpfRWErT6wyvlgGanhhUM89aQa.jpg",
-    "tags": [],
-    "notes": ""
-  },
-  {
     "id": "i_1794246770210_32xtrl",
     "title": "vikings",
     "platform": "",
@@ -24,6 +16,14 @@
     "cover": "https://image.tmdb.org/t/p/w342/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg",
     "tags": [],
     "notes": "episode 2"
+  },
+  {
+    "id": "i_1794182493682_tzu506",
+    "title": "Greatest Events of WWII in Colour",
+    "platform": "",
+    "cover": "https://image.tmdb.org/t/p/w342/dZpfRWErT6wyvlgGanhhUM89aQa.jpg",
+    "tags": [],
+    "notes": ""
   },
   {
     "id": "i_1794182493682_y5wl09",
