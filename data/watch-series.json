@@ -113,14 +113,6 @@
     "notes": ""
   },
   {
-    "id": "i_1794182493682_dcaw2v",
-    "title": "game of thrones",
-    "platform": "",
-    "cover": "https://image.tmdb.org/t/p/w342/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
-    "tags": [],
-    "notes": ""
-  },
-  {
     "id": "i_1794246770210_32xtrl",
     "title": "vikings",
     "platform": "",
@@ -128,6 +120,14 @@
     "cover": "https://image.tmdb.org/t/p/w342/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg",
     "tags": [],
     "notes": "episode 2"
+  },
+  {
+    "id": "i_1794182493682_dcaw2v",
+    "title": "game of thrones",
+    "platform": "",
+    "cover": "https://image.tmdb.org/t/p/w342/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg",
+    "tags": [],
+    "notes": ""
   },
   {
     "id": "i_1794182493682_gqhbsq",
