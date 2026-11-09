@@ -49,14 +49,6 @@
     "notes": ""
   },
   {
-    "id": "i_1794182493682_o21ifo",
-    "title": "monster",
-    "platform": "",
-    "cover": "https://image.tmdb.org/t/p/w342/n5XNKXnoXpoXyfiCtXHOf8q8PFM.jpg",
-    "tags": [],
-    "notes": ""
-  },
-  {
     "id": "i_1794246770210_32xtrl",
     "title": "vikings",
     "platform": "",
@@ -64,6 +56,14 @@
     "cover": "https://image.tmdb.org/t/p/w342/bQLrHIRNEkE3PdIWQrZHynQZazu.jpg",
     "tags": [],
     "notes": "episode 2"
+  },
+  {
+    "id": "i_1794182493682_o21ifo",
+    "title": "monster",
+    "platform": "",
+    "cover": "https://image.tmdb.org/t/p/w342/n5XNKXnoXpoXyfiCtXHOf8q8PFM.jpg",
+    "tags": [],
+    "notes": ""
   },
   {
     "id": "i_1794182493682_agrlr2",
