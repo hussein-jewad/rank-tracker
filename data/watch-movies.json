@@ -13,7 +13,8 @@
     "platform": "",
     "cover": "https://image.tmdb.org/t/p/w342/w9KSuRoUPyWOIoybwW7zyYoHhsF.jpg",
     "tags": [],
-    "notes": ""
+    "notes": "godfather 2 (1 hour)",
+    "year": null
   },
   {
     "id": "i_1794182640729_56ku0l",
@@ -108,6 +109,24 @@
     "title": "forgotten",
     "platform": "",
     "cover": "https://image.tmdb.org/t/p/w342/myd1K3gefdNAWFsGNRDdMeiK9Qg.jpg",
+    "tags": [],
+    "notes": ""
+  },
+  {
+    "id": "i_1794334615149_vq3mw5",
+    "title": "memento",
+    "platform": "",
+    "year": 2000,
+    "cover": "https://image.tmdb.org/t/p/w342/nzlv62aC0octS5AklAiWpXLX9Z0.jpg",
+    "tags": [],
+    "notes": ""
+  },
+  {
+    "id": "i_1794335188246_yzyftf",
+    "title": "the zone of interest",
+    "platform": "",
+    "year": 2023,
+    "cover": "https://image.tmdb.org/t/p/w342/hUu9zyZmDd8VZegKi1iK1Vk0RYS.jpg",
     "tags": [],
     "notes": ""
   }
