@@ -170,8 +170,11 @@
     "title": "God of War 2018",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/5855660034a74cfe0e5fc8d57d17f4ac.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "god of war"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_48s5eg",
