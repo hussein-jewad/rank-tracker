@@ -395,8 +395,13 @@
     "title": "Wolfenstein (2009)",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/3b89c2f364807ea9a3ec95465ac8bffa.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "wolfenstein",
+      "retro",
+      "shooter"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_n0afos",
