@@ -65,11 +65,16 @@
   },
   {
     "id": "i_1794184953560_jfkn5p",
-    "title": "Resident Evil HD",
+    "title": "Resident Evil 1",
     "platform": "",
-    "cover": "https://cdn2.steamgriddb.com/grid/2cb6ba49a9704b70db6a82012e6876b7.png",
-    "tags": [],
-    "notes": ""
+    "cover": "https://cdn2.steamgriddb.com/grid/af37c0651e1224f45466dcb8fc082b8f.png",
+    "tags": [
+      "resident evil",
+      "horror",
+      "retro"
+    ],
+    "notes": "Jill - very easy",
+    "year": 2002
   },
   {
     "id": "i_1794184953560_5rdtgi",
