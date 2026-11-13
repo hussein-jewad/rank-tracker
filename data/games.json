@@ -379,8 +379,11 @@
     "title": "Bendy and the Ink Machine",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/a4a39e8d061601e46f61ddc777113e8c.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_93dak3",
