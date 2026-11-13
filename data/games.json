@@ -267,8 +267,12 @@
     "title": "Watch Dogs 2",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/8757d7e24549036de3f2d715b2c06018.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "watch dogs",
+      "shooter"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_t00o3t",
