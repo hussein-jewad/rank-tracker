@@ -53,8 +53,12 @@
     "title": "Amnesia The Bunker",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/c4a4d4efccd5a0168876804db022b3a4.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "frictional",
+      "horror"
+    ],
+    "notes": "",
+    "year": 2023
   },
   {
     "id": "i_1794184953560_c1s648",
