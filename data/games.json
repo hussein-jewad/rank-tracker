@@ -17,8 +17,12 @@
     "title": "Soma",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/8ecdbbf4ca2a3715337c02cb8d2ea4cc.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "Frictional games",
+      "horror"
+    ],
+    "notes": "",
+    "year": 2015
   },
   {
     "id": "i_1794184953560_l7ct1p",
