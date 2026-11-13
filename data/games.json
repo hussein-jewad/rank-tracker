@@ -61,8 +61,12 @@
     "title": "Watch Dogs",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/df827da31d664707840bc6c221f22d72.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "watch dogs",
+      "shooter"
+    ],
+    "notes": "",
+    "year": 2014
   },
   {
     "id": "i_1794184953560_oxqsi5",
