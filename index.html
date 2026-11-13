@@ -6,7 +6,7 @@
 <title>Rank Tracker</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap');
-
+ 
   :root {
     --bg: #1b1f2a;
     --bg-raised: #222736;
@@ -22,9 +22,9 @@
     --cover-w: 100px;
     --cover-h: 140px;
   }
-
+ 
   * { box-sizing: border-box; }
-
+ 
   body {
     margin: 0;
     background: var(--bg);
@@ -32,23 +32,23 @@
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-
+ 
   .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 28px 60px; }
-
+ 
   header {
     display: flex; align-items: baseline; justify-content: space-between;
     margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
   }
-
+ 
   h1 {
     font-family: 'Fraunces', serif; font-weight: 600; font-size: 36px;
     margin: 0; letter-spacing: -0.01em;
   }
-
+ 
   .header-right { display: flex; align-items: center; gap: 14px; }
   .stats { color: var(--ink-dim); font-size: 15px; }
   .stats strong { color: var(--ink); font-weight: 600; }
-
+ 
   /* Banners */
   .shared-banner, .setup-banner {
     display: none; justify-content: space-between; align-items: center;
@@ -60,11 +60,11 @@
     background: none; border: none; cursor: pointer; font-size: 14px; padding: 0; font-family: inherit;
   }
   .shared-banner a:hover, .setup-banner a:hover { text-decoration: underline; }
-
+ 
   /* Tabs */
   .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 14px; flex-wrap: wrap; justify-content: space-between; }
   .tabs-main { display: flex; gap: 4px; }
-
+ 
   .tab {
     background: none; border: none; color: var(--ink-dim);
     font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500;
@@ -72,14 +72,14 @@
     border-bottom: 2px solid transparent; position: relative; top: 1px;
   }
   .tab.active { color: var(--ink); border-bottom-color: var(--amber); }
-
+ 
   .manage-btn {
     background: var(--bg-raised); color: var(--ink); border: 1px solid var(--line);
     border-radius: 6px; padding: 9px 15px; font-size: 14px; font-weight: 500; cursor: pointer;
     display: flex; align-items: center; gap: 6px; height: fit-content; margin-bottom: 8px;
   }
   .manage-btn:hover { border-color: var(--ink-dim); }
-
+ 
   /* Sub-tabs */
   .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
   .subtab {
@@ -87,7 +87,7 @@
     padding: 8px 15px; border-radius: 100px; font-size: 14px; font-weight: 500; cursor: pointer;
   }
   .subtab.active { color: var(--bg); background: var(--teal); border-color: var(--teal); }
-
+ 
   /* Filters panel */
   .filters-toggle-row { margin-bottom: 14px; }
   .filters-toggle {
@@ -100,19 +100,19 @@
     background: var(--amber); color: var(--bg); border-radius: 100px;
     font-size: 11px; font-weight: 700; padding: 1px 7px;
   }
-
+ 
   .filters-panel {
     background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px;
     padding: 16px 18px; margin-bottom: 18px; display: none;
   }
   .filters-panel.open { display: block; }
-
+ 
   .filters-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
   .filters-row:last-child { margin-bottom: 0; }
   .filters-row label { font-size: 12.5px; color: var(--ink-dim); white-space: nowrap; }
   .filters-row input[type=number] { width: 90px; }
   .filters-row input[type=text] { max-width: 220px; }
-
+ 
   .tag-chip-list {
     display: flex; flex-wrap: wrap; gap: 6px; max-height: 110px; overflow-y: auto;
     padding: 2px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 2px;
@@ -122,16 +122,16 @@
     border: 1px solid var(--line); padding: 5px 12px; border-radius: 100px; cursor: pointer;
   }
   .tag-chip.active { color: var(--bg); background: var(--amber); border-color: var(--amber); }
-
+ 
   .clear-filters-btn { color: var(--red); background: none; border: 1px solid var(--red); border-radius: 100px; padding: 6px 13px; font-size: 12.5px; cursor: pointer; }
-
+ 
   /* Drawer */
   .drawer-overlay {
     position: fixed; inset: 0; background: rgba(10,12,18,0.55);
     opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 80;
   }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
-
+ 
   .drawer {
     position: fixed; top: 0; right: 0; height: 100%; width: min(460px, 92vw);
     background: var(--bg); border-left: 1px solid var(--line);
@@ -139,45 +139,45 @@
     overflow-y: auto; padding: 24px;
   }
   .drawer.open { transform: translateX(0); }
-
+ 
   .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
   .drawer-header h2 { font-family: 'Fraunces', serif; font-size: 22px; margin: 0; }
   .drawer-close { background: none; border: none; color: var(--ink-dim); font-size: 22px; cursor: pointer; line-height: 1; padding: 4px 8px; }
   .drawer-close:hover { color: var(--ink); }
-
+ 
   .section {
     background: var(--bg-raised); border: 1px solid var(--line); border-radius: 6px;
     padding: 18px 20px; margin-bottom: 16px;
   }
   .section.collapsed .section-body { display: none; }
-
+ 
   .section-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
   .section-toggle .label { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; }
   .section-toggle .sub { font-size: 12.5px; color: var(--ink-dim); font-weight: 400; margin-top: 2px; }
   .section-toggle .chev { color: var(--ink-dim); transition: transform 0.15s ease; font-size: 13px; }
   .section:not(.collapsed) .chev { transform: rotate(180deg); }
   .section-body { margin-top: 16px; }
-
+ 
   .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .field { display: flex; flex-direction: column; gap: 6px; }
   .field.full { grid-column: 1 / -1; }
   .field.hidden { display: none; }
-
+ 
   label { font-size: 12.5px; color: var(--ink-dim); }
-
+ 
   input, select, textarea {
     background: var(--bg); border: 1px solid var(--line); border-radius: 4px; color: var(--ink);
     padding: 9px 10px; font-family: 'Inter', sans-serif; font-size: 14.5px; width: 100%;
   }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amber); }
   textarea { resize: vertical; min-height: 90px; font-family: 'Inter', sans-serif; }
-
+ 
   .cover-row { display: flex; gap: 8px; }
   .cover-row input { flex: 1; }
   .cover-preview { max-height: 110px; border-radius: 4px; margin-top: 8px; display: none; border: 1px solid var(--line); }
-
+ 
   .form-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
-
+ 
   button {
     font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; border-radius: 4px;
     padding: 9px 16px; cursor: pointer; border: 1px solid transparent; white-space: nowrap;
@@ -189,15 +189,15 @@
   .btn-secondary:disabled { opacity: 0.5; cursor: default; }
   .btn-ghost { background: transparent; color: var(--ink-dim); border-color: var(--line); }
   .btn-ghost:hover { color: var(--ink); border-color: var(--ink-dim); }
-
+ 
   .hint { font-size: 12.5px; color: var(--ink-dim); margin-top: 8px; line-height: 1.5; }
   .hint a { color: var(--teal); }
-
+ 
   .controls-row { display: flex; justify-content: flex-end; margin-bottom: 12px; }
-
+ 
   /* List */
   .list { display: flex; flex-direction: column; margin-top: 4px; }
-
+ 
   .row {
     display: grid; align-items: center; gap: 20px;
     padding: 28px 18px; border-bottom: 1px solid var(--line); min-height: 160px;
@@ -205,13 +205,13 @@
   .row:first-child { border-top: 1px solid var(--line); }
   .row-ranked { grid-template-columns: var(--cover-w) 52px 1fr auto; }
   .row-flat { grid-template-columns: var(--cover-w) 1fr auto; }
-
+ 
   .cover-thumb {
     width: var(--cover-w); height: var(--cover-h); border-radius: 6px; overflow: hidden;
     background: var(--bg); border: 1px solid var(--line); flex-shrink: 0;
   }
   .cover-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
+ 
   .rank-badge {
     font-family: 'Fraunces', serif; font-weight: 700; font-size: 19px;
     width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
@@ -223,13 +223,13 @@
   .tier-top5 { color: var(--amber); font-weight: 700; }
   .tier-top10 { color: var(--teal); }
   .tier-top20 { color: var(--ink); }
-
+ 
   .item-main .title { font-size: 21px; font-weight: 600; font-family: 'Fraunces', serif; }
   .item-main .meta { font-size: 14.5px; color: var(--ink-dim); margin-top: 4px; }
   .item-main .notes { font-size: 15px; color: var(--ink-dim); margin-top: 8px; line-height: 1.45; max-width: 60ch; }
-
+ 
   .row-actions { display: flex; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
-
+ 
   .icon-btn {
     background: none; border: none; color: var(--ink-dim); font-size: 14.5px;
     padding: 6px 10px; cursor: pointer; border-radius: 4px;
@@ -239,10 +239,10 @@
   .icon-btn:disabled:hover { background: none; }
   .icon-btn.confirm-danger { color: var(--red); font-weight: 600; }
   .icon-btn.rank-it { color: var(--amber); font-weight: 600; }
-
+ 
   .empty { text-align: center; padding: 70px 20px; color: var(--ink-dim); }
   .empty .big { font-family: 'Fraunces', serif; font-size: 22px; color: var(--ink); margin-bottom: 6px; }
-
+ 
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
     background: var(--bg-raised); border: 1px solid var(--line); color: var(--ink);
@@ -250,36 +250,36 @@
     transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; z-index: 150; max-width: 80vw; text-align: center;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
+ 
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(10,12,18,0.75); display: flex;
     align-items: center; justify-content: center; opacity: 0; pointer-events: none;
     transition: opacity 0.15s ease; z-index: 100; padding: 20px;
   }
   .modal-overlay.show { opacity: 1; pointer-events: auto; }
-
+ 
   .modal {
     background: var(--bg-raised); border: 1px solid var(--line); border-radius: 8px;
     padding: 28px; max-width: 480px; width: 100%; text-align: center;
   }
-
+ 
   .modal-progress { font-size: 12.5px; color: var(--ink-dim); margin-bottom: 14px; }
   .modal-prompt { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin-bottom: 20px; }
   .modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
-
+ 
   .modal-option {
     background: var(--bg); border: 1px solid var(--line); color: var(--ink); padding: 16px;
     border-radius: 6px; font-size: 15.5px; font-weight: 500; cursor: pointer; text-align: center;
   }
   .modal-option:hover { border-color: var(--amber); background: rgba(232,163,61,0.08); }
-
+ 
   .share-link-input { margin-bottom: 14px; font-size: 13px; text-align: left; }
   .share-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 14px; flex-wrap: wrap; }
-
+ 
   footer { text-align: center; padding: 24px 12px 12px; font-size: 13px; color: var(--ink-dim); }
   footer a { color: var(--teal); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
-
+ 
   @media (max-width: 640px) {
     :root { --cover-w: 76px; --cover-h: 106px; }
     .fields { grid-template-columns: 1fr; }
@@ -296,28 +296,28 @@
       <div class="stats" id="stats"></div>
     </div>
   </header>
-
+ 
   <div class="shared-banner" id="sharedBanner">
     <span id="sharedBannerLabel"></span>
     <a href="#" id="exitShared">Open your own tracker</a>
   </div>
-
+ 
   <div class="setup-banner" id="setupBanner">
     <span>Connect GitHub to start saving your lists.</span>
     <button class="link-btn" id="setupBannerBtn">Open Settings</button>
   </div>
-
+ 
   <div class="tabs">
     <div class="tabs-main" id="tabs"></div>
     <button class="manage-btn" id="openDrawer">⚙ Manage</button>
   </div>
-
+ 
   <div class="sub-tabs" id="subTabs"></div>
-
+ 
   <div class="filters-toggle-row">
     <button class="filters-toggle" id="filtersToggle">Filters <span class="count" id="filtersCount" style="display:none;"></span></button>
   </div>
-
+ 
   <div class="filters-panel" id="filtersPanel">
     <div class="filters-row">
       <label for="year-from">Year from</label>
@@ -333,14 +333,14 @@
     </div>
     <div class="tag-chip-list" id="tagChipList"></div>
   </div>
-
+ 
   <div class="list" id="list"></div>
-
+ 
   <footer id="attributionFooter" style="display:none;">
     Data and images provided by <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">RAWG</a>, <a href="https://www.steamgriddb.com" target="_blank" rel="noopener noreferrer">SteamGridDB</a> and <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDb</a>.
   </footer>
 </div>
-
+ 
 <!-- Drawer -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <div class="drawer" id="drawer">
@@ -348,7 +348,7 @@
     <h2>Manage</h2>
     <button class="drawer-close" id="drawerClose">×</button>
   </div>
-
+ 
   <div class="section collapsed" id="settingsSection">
     <div class="section-toggle" id="settingsToggle">
       <div>
@@ -366,7 +366,7 @@
         <div class="field full">
           <div class="hint">Create a fine-grained token at <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>, scoped to just this repo, with "Contents: Read and write" permission. It's stored only in this browser.</div>
         </div>
-        <div class="field full"><label>SteamGridDB API key (Games covers — recommended)</label><input type="text" id="sgdb-key" placeholder="Paste SteamGridDB key here"></div>
+        <div class="field full"><label>SteamGridDB proxy URL (Games covers — your Cloudflare Worker address)</label><input type="text" id="sgdb-proxy" placeholder="https://sgdb-proxy.yourname.workers.dev"></div>
         <div class="field full"><label>RAWG API key (Games, fallback — often down)</label><input type="text" id="rawg-key" placeholder="Paste RAWG key here"></div>
         <div class="field full"><label>TMDb API key (Movies &amp; Series covers)</label><input type="text" id="tmdb-key" placeholder="Paste TMDb key here"></div>
         <div class="form-actions">
@@ -375,14 +375,14 @@
         </div>
       </div>
       <div class="hint">
-        SteamGridDB (recommended for games, gives consistent cover art): <a href="https://www.steamgriddb.com/profile/preferences/api" target="_blank" rel="noopener">steamgriddb.com/profile/preferences/api</a> ·
+        SteamGridDB covers go through your own Cloudflare Worker, which keeps the SteamGridDB key secret — only the Worker's URL goes here ·
         RAWG: <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">rawg.io/apidocs</a> ·
         TMDb: <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a>.
         If a cover source fails to load due to your browser blocking the request, paste a cover URL manually instead — there's no way around that from a page with no server of its own.
       </div>
     </div>
   </div>
-
+ 
   <div class="section collapsed" id="addSection">
     <div class="section-toggle" id="addToggle">
       <div>
@@ -414,7 +414,7 @@
       </div>
     </div>
   </div>
-
+ 
   <div class="section collapsed" id="bulkSection">
     <div class="section-toggle" id="bulkToggle">
       <div>
@@ -438,14 +438,14 @@
       <div class="hint" id="bulkHint">Guided sort runs full comparisons, so if this list already has items, they'll be included too — best used to build a list from scratch. Covers fetch automatically afterward if you've added an API key.</div>
     </div>
   </div>
-
+ 
   <div class="controls-row">
     <button class="btn-secondary" id="shareBtn">Share this list</button>
   </div>
 </div>
-
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-progress" id="modalProgress"></div>
@@ -457,7 +457,7 @@
     <button class="btn-ghost" id="modalCancel">Cancel</button>
   </div>
 </div>
-
+ 
 <div class="modal-overlay" id="shareOverlay">
   <div class="modal">
     <div class="modal-prompt">Share link</div>
@@ -469,7 +469,7 @@
     <div class="hint">This is a snapshot — anyone with the link sees this ranking exactly as it is right now, not any future changes you make. Only the Ranked view of this tab is shared.</div>
   </div>
 </div>
-
+ 
 <script>
 const TABS = [
   { key: 'games', label: 'Games', hasPlatform: true },
@@ -477,39 +477,39 @@ const TABS = [
   { key: 'series', label: 'Series', hasPlatform: false },
 ];
 const SIDE_MODES = ['watch', 'honor'];
-
+ 
 let activeTab = 'games';
 let listMode = 'ranked'; // 'ranked' | 'watch' | 'honor'
 let lists = { games: [], movies: [], series: [] };
 let watch = { games: [], movies: [], series: [] };
 let honor = { games: [], movies: [], series: [] };
 let dataStores = { ranked: lists, watch: watch, honor: honor };
-
+ 
 let editingId = null;
-let settings = { tmdbKey: '', rawgKey: '', sgdbKey: '' };
+let settings = { tmdbKey: '', rawgKey: '', sgdbProxy: '' };
 let github = { owner: '', repo: '', branch: 'main', token: '' };
 const coverFetchAttempted = new Set();
-
+ 
 let activeTagFilters = new Set();
 let tagSearchQuery = '';
 let yearFilter = { from: null, to: null };
-
+ 
 // --- GitHub sync state ---
 let shas = {};
 let writeChain = Promise.resolve();
-
+ 
 // --- comparison engine state ---
 let activeGen = null, activeGenType = null, activeGenContext = {};
 let compCount = 0, compEstimate = 0;
-
+ 
 // --- delete confirm state ---
 let pendingDeleteId = null, pendingDeleteTimer = null;
-
+ 
 const els = {};
 ['stats','tabs','subTabs','openDrawer','drawer','drawerOverlay','drawerClose',
  'sharedBanner','sharedBannerLabel','exitShared','setupBanner','setupBannerBtn',
  'settingsSection','settingsToggle','gh-owner','gh-repo','gh-branch','gh-token','syncNow',
- 'tmdb-key','rawg-key','sgdb-key','saveSettings','attributionFooter',
+ 'tmdb-key','rawg-key','sgdb-proxy','saveSettings','attributionFooter',
  'addSection','addToggle','addLabel','addSub','cancelAdd','addToBottom','addByCompare',
  'f-title','f-platform-field','f-platform','f-year','f-cover','fetchCoverBtn','coverPreview','f-tags','f-notes',
  'bulkSection','bulkToggle','bulkSub','bulkHint','cancelBulk','startBulk','startBulkInstant','bulk-text',
@@ -517,57 +517,57 @@ const els = {};
  'filtersToggle','filtersCount','filtersPanel','year-from','year-to','applyYearFilter','clearAllFilters','tag-search','tagChipList',
  'list','toast','modalOverlay','modalProgress','modalOptA','modalOptB','modalCancel']
  .forEach(id => els[id] = document.getElementById(id));
-
+ 
 function currentTabDef() { return TABS.find(t => t.key === activeTab); }
 function activeArr() { return dataStores[listMode][activeTab]; }
 function currentArrRef() { return activeArr(); }
 function dataKey(tabKey, mode) { return mode === 'ranked' ? tabKey : mode + '-' + tabKey; }
 function currentSave() { return () => queueSave(dataKey(activeTab, listMode), dataStores[listMode][activeTab]); }
-
+ 
 function uid() { return 'i_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8); }
-
+ 
 function showToast(msg) {
   els.toast.textContent = msg;
   els.toast.classList.add('show');
   setTimeout(() => els.toast.classList.remove('show'), 2200);
 }
-
+ 
 function escapeHtml(str) {
   return String(str == null ? '' : str)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
-
+ 
 /* ---------- Local settings (API keys + GitHub config) ---------- */
 function loadSettings() {
   try {
     const raw = localStorage.getItem('ranktracker:settings');
-    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '', sgdbKey: '' };
-  } catch (e) { settings = { tmdbKey: '', rawgKey: '', sgdbKey: '' }; }
+    settings = raw ? JSON.parse(raw) : { tmdbKey: '', rawgKey: '', sgdbProxy: '' };
+  } catch (e) { settings = { tmdbKey: '', rawgKey: '', sgdbProxy: '' }; }
   try {
     const raw = localStorage.getItem('ranktracker:github');
     github = raw ? JSON.parse(raw) : { owner: '', repo: '', branch: 'main', token: '' };
   } catch (e) { github = { owner: '', repo: '', branch: 'main', token: '' }; }
   els['tmdb-key'].value = settings.tmdbKey || '';
   els['rawg-key'].value = settings.rawgKey || '';
-  els['sgdb-key'].value = settings.sgdbKey || '';
+  els['sgdb-proxy'].value = settings.sgdbProxy || '';
   els['gh-owner'].value = github.owner || '';
   els['gh-repo'].value = github.repo || '';
   els['gh-branch'].value = github.branch || 'main';
   els['gh-token'].value = github.token || '';
   renderAttributionFooter();
 }
-
+ 
 function renderAttributionFooter() {
-  els.attributionFooter.style.display = (settings.tmdbKey || settings.rawgKey || settings.sgdbKey) ? '' : 'none';
+  els.attributionFooter.style.display = (settings.tmdbKey || settings.rawgKey || settings.sgdbProxy) ? '' : 'none';
 }
-
+ 
 function githubReady() { return !!(github.owner && github.repo && github.token); }
-
+ 
 function saveSettingsFn() {
   settings.tmdbKey = els['tmdb-key'].value.trim();
   settings.rawgKey = els['rawg-key'].value.trim();
-  settings.sgdbKey = els['sgdb-key'].value.trim();
+  settings.sgdbProxy = els['sgdb-proxy'].value.trim();
   const prevReady = githubReady();
   github.owner = els['gh-owner'].value.trim();
   github.repo = els['gh-repo'].value.trim();
@@ -583,12 +583,12 @@ function saveSettingsFn() {
   renderSetupBanner();
   if (githubReady() && !prevReady) initialLoad();
 }
-
+ 
 function renderSetupBanner() { els.setupBanner.style.display = githubReady() ? 'none' : 'flex'; }
-
+ 
 /* ---------- GitHub Contents API ---------- */
 function ghPath(key) { return 'data/' + key + '.json'; }
-
+ 
 async function ghRequest(method, key, bodyObj) {
   const { owner, repo, branch, token } = github;
   const path = ghPath(key);
@@ -598,7 +598,7 @@ async function ghRequest(method, key, bodyObj) {
   if (bodyObj) headers['Content-Type'] = 'application/json';
   return fetch(url, { method, headers, body: bodyObj ? JSON.stringify(bodyObj) : undefined });
 }
-
+ 
 async function ghReadTab(key) {
   const res = await ghRequest('GET', key);
   if (res.status === 404) { shas[key] = null; return []; }
@@ -609,7 +609,7 @@ async function ghReadTab(key) {
   const parsed = JSON.parse(decoded);
   return Array.isArray(parsed) ? parsed : [];
 }
-
+ 
 async function ghWriteTab(key, data) {
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
   const body = { message: 'Update ' + key, content, branch: github.branch };
@@ -623,7 +623,7 @@ async function ghWriteTab(key, data) {
   const json = await res.json();
   shas[key] = json.content.sha;
 }
-
+ 
 function queueSave(key, data) {
   if (!githubReady()) { showToast('Connect GitHub in Settings to save'); openDrawerTo('settingsSection'); return; }
   writeChain = writeChain
@@ -631,11 +631,11 @@ function queueSave(key, data) {
     .catch(e => { showToast('Save to GitHub failed: ' + e.message); });
   return writeChain;
 }
-
+ 
 function saveTab(tabKey) { queueSave(dataKey(tabKey, 'ranked'), lists[tabKey]); }
 function saveWatchTab(tabKey) { queueSave(dataKey(tabKey, 'watch'), watch[tabKey]); }
 function saveHonorTab(tabKey) { queueSave(dataKey(tabKey, 'honor'), honor[tabKey]); }
-
+ 
 async function initialLoad() {
   if (!githubReady()) { render(); return; }
   els.stats.textContent = 'Loading from GitHub…';
@@ -652,28 +652,23 @@ async function initialLoad() {
   render();
   backfillCovers(activeTab);
 }
-
+ 
 els.syncNow.addEventListener('click', initialLoad);
-
+ 
 /* ---------- Cover + metadata fetching ---------- */
+// Goes through your own Cloudflare Worker (which holds the SteamGridDB key and adds CORS headers).
 async function fetchSteamGridCover(title) {
-  const key = settings.sgdbKey;
-  if (!key) return null;
-  const headers = { 'Authorization': 'Bearer ' + key };
+  const base = (settings.sgdbProxy || '').replace(/\/+$/, '');
+  if (!base) return null;
+  const cleanTitle = title.replace(/\(\d{4}\)/g, '').trim();
   try {
-    const searchRes = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(title)}`, { headers });
-    if (!searchRes.ok) return null;
-    const searchData = await searchRes.json();
-    const first = searchData.data && searchData.data[0];
-    if (!first) return null;
-    const gridRes = await fetch(`https://www.steamgriddb.com/api/v2/grids/game/${first.id}?dimensions=600x900`, { headers });
-    if (!gridRes.ok) return null;
-    const gridData = await gridRes.json();
-    const img = gridData.data && gridData.data[0];
-    return img ? img.url : null;
+    const res = await fetch(`${base}/cover?title=${encodeURIComponent(cleanTitle)}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.cover || null;
   } catch (e) { return null; }
 }
-
+ 
 async function fetchRawgData(title) {
   const key = settings.rawgKey;
   if (!key) return null;
@@ -688,10 +683,10 @@ async function fetchRawgData(title) {
     return { cover: first.background_image || null, year: year || null };
   } catch (e) { return null; }
 }
-
+ 
 async function fetchGameData(title) {
   let cover = null, year = null;
-  if (settings.sgdbKey) cover = await fetchSteamGridCover(title);
+  if (settings.sgdbProxy) cover = await fetchSteamGridCover(title);
   if (settings.rawgKey) {
     const rawg = await fetchRawgData(title);
     if (rawg) {
@@ -701,7 +696,7 @@ async function fetchGameData(title) {
   }
   return { cover, year };
 }
-
+ 
 async function fetchTmdbData(title, mediaType) {
   const key = settings.tmdbKey;
   if (!key) return { cover: null, year: null };
@@ -719,13 +714,13 @@ async function fetchTmdbData(title, mediaType) {
     return { cover, year: year || null };
   } catch (e) { return { cover: null, year: null }; }
 }
-
+ 
 async function fetchCoverApi(title, tabKey) {
   return tabKey === 'games' ? fetchGameData(title) : fetchTmdbData(title, tabKey);
 }
-
+ 
 async function backfillCovers(tabKey) {
-  const hasKey = tabKey === 'games' ? !!(settings.sgdbKey || settings.rawgKey) : !!settings.tmdbKey;
+  const hasKey = tabKey === 'games' ? !!(settings.sgdbProxy || settings.rawgKey) : !!settings.tmdbKey;
   if (!hasKey) return;
   const pools = [lists[tabKey], watch[tabKey]];
   if (tabKey === 'games') pools.push(honor[tabKey]);
@@ -747,7 +742,7 @@ async function backfillCovers(tabKey) {
     }
   }
 }
-
+ 
 function updateCoverPreview() {
   const val = els['f-cover'].value.trim();
   if (val) { els.coverPreview.src = val; els.coverPreview.style.display = 'block'; }
@@ -755,7 +750,7 @@ function updateCoverPreview() {
 }
 els['f-cover'].addEventListener('input', updateCoverPreview);
 els.coverPreview.addEventListener('error', () => { els.coverPreview.style.display = 'none'; });
-
+ 
 els.fetchCoverBtn.addEventListener('click', async () => {
   const title = els['f-title'].value.trim();
   if (!title) { els['f-title'].focus(); showToast('Enter a title first'); return; }
@@ -769,7 +764,7 @@ els.fetchCoverBtn.addEventListener('click', async () => {
   if (result.year && !els['f-year'].value) { els['f-year'].value = result.year; found = true; }
   showToast(found ? 'Found data — you can still edit it' : 'Nothing found — try pasting a URL manually');
 });
-
+ 
 /* ---------- Drawer ---------- */
 function openDrawer() { els.drawer.classList.add('open'); els.drawerOverlay.classList.add('open'); }
 function closeDrawer() { els.drawer.classList.remove('open'); els.drawerOverlay.classList.remove('open'); }
@@ -783,7 +778,7 @@ els.openDrawer.addEventListener('click', openDrawer);
 els.drawerClose.addEventListener('click', closeDrawer);
 els.drawerOverlay.addEventListener('click', closeDrawer);
 els.setupBannerBtn.addEventListener('click', () => openDrawerTo('settingsSection'));
-
+ 
 /* ---------- Tabs & sub-tabs ---------- */
 function renderTabs() {
   els.tabs.innerHTML = '';
@@ -802,13 +797,13 @@ function renderTabs() {
     els.tabs.appendChild(btn);
   });
 }
-
+ 
 function subTabDefs() {
   const base = [{ key: 'ranked', label: 'Ranked' }, { key: 'watch', label: 'To watch / play' }];
   if (activeTab === 'games') base.push({ key: 'honor', label: 'Honorable mentions' });
   return base;
 }
-
+ 
 function renderSubTabs() {
   const defs = subTabDefs();
   if (!defs.find(d => d.key === listMode)) listMode = 'ranked';
@@ -826,10 +821,10 @@ function renderSubTabs() {
     els.subTabs.appendChild(btn);
   });
 }
-
+ 
 /* ---------- Filters ---------- */
 function resetFilters() { activeTagFilters = new Set(); tagSearchQuery = ''; yearFilter = { from: null, to: null }; els['tag-search'].value = ''; els['year-from'].value = ''; els['year-to'].value = ''; }
-
+ 
 els.filtersToggle.addEventListener('click', () => els.filtersPanel.classList.toggle('open'));
 els['tag-search'].addEventListener('input', () => { tagSearchQuery = els['tag-search'].value.trim().toLowerCase(); renderTagChips(activeArr()); });
 els.applyYearFilter.addEventListener('click', () => {
@@ -840,18 +835,18 @@ els.applyYearFilter.addEventListener('click', () => {
   render();
 });
 els.clearAllFilters.addEventListener('click', () => { resetFilters(); render(); });
-
+ 
 function filterCount() {
   return activeTagFilters.size + ((yearFilter.from || yearFilter.to) ? 1 : 0);
 }
-
+ 
 function renderFiltersToggle() {
   const n = filterCount();
   els.filtersToggle.classList.toggle('has-active', n > 0);
   els.filtersCount.style.display = n > 0 ? '' : 'none';
   els.filtersCount.textContent = n;
 }
-
+ 
 function renderTagChips(arr) {
   const allTags = new Set();
   arr.forEach(it => (it.tags || []).forEach(t => allTags.add(t)));
@@ -873,21 +868,21 @@ function renderTagChips(arr) {
     els.tagChipList.appendChild(chip);
   });
 }
-
+ 
 /* ---------- Settings toggle ---------- */
 els.settingsToggle.addEventListener('click', () => els.settingsSection.classList.toggle('collapsed'));
 els.saveSettings.addEventListener('click', saveSettingsFn);
-
+ 
 /* ---------- Add form ---------- */
 els.addToggle.addEventListener('click', () => {
   els.addSection.classList.toggle('collapsed');
   if (!els.addSection.classList.contains('collapsed')) els['f-title'].focus();
 });
 els.cancelAdd.addEventListener('click', () => { resetForm(); els.addSection.classList.add('collapsed'); });
-
+ 
 els.bulkToggle.addEventListener('click', () => els.bulkSection.classList.toggle('collapsed'));
 els.cancelBulk.addEventListener('click', () => { els['bulk-text'].value = ''; els.bulkSection.classList.add('collapsed'); });
-
+ 
 function resetForm() {
   editingId = null;
   els['f-title'].value = '';
@@ -915,9 +910,9 @@ function resetForm() {
   }
   els.addLabel.textContent = 'Add';
 }
-
+ 
 function parseTags(str) { return str.split(',').map(s => s.trim()).filter(Boolean); }
-
+ 
 function readForm() {
   const yearVal = els['f-year'].value.trim();
   return {
@@ -929,7 +924,7 @@ function readForm() {
     notes: els['f-notes'].value.trim(),
   };
 }
-
+ 
 els.addToBottom.addEventListener('click', () => {
   const data = readForm();
   if (!data.title) { els['f-title'].focus(); return; }
@@ -949,7 +944,7 @@ els.addToBottom.addEventListener('click', () => {
   render();
   backfillCovers(activeTab);
 });
-
+ 
 els.addByCompare.addEventListener('click', () => {
   if (listMode !== 'ranked') return;
   const data = readForm();
@@ -959,7 +954,7 @@ els.addByCompare.addEventListener('click', () => {
   els.addSection.classList.add('collapsed');
   startInsertFlow(activeTab, item);
 });
-
+ 
 function editItem(id) {
   const arr = currentArrRef();
   const item = arr.find(g => g.id === id);
@@ -978,7 +973,7 @@ function editItem(id) {
   openDrawerTo('addSection');
   els['f-title'].focus();
 }
-
+ 
 function deleteItem(id, btn) {
   const arr = currentArrRef();
   const item = arr.find(g => g.id === id);
@@ -1001,7 +996,7 @@ function deleteItem(id, btn) {
   render();
   showToast('Removed ' + item.title);
 }
-
+ 
 function moveItem(id, dir) {
   const arr = currentArrRef();
   const idx = arr.findIndex(g => g.id === id);
@@ -1011,7 +1006,7 @@ function moveItem(id, dir) {
   currentSave()();
   render();
 }
-
+ 
 function repositionByCompare(id) {
   const arr = lists[activeTab];
   const item = arr.find(g => g.id === id);
@@ -1025,7 +1020,7 @@ function repositionByCompare(id) {
   compEstimate = Math.max(1, Math.ceil(Math.log2(without.length + 1)));
   stepGen();
 }
-
+ 
 function promoteToRanked(id) {
   const arr = dataStores[listMode][activeTab];
   const idx = arr.findIndex(i => i.id === id);
@@ -1036,14 +1031,14 @@ function promoteToRanked(id) {
   render();
   startInsertFlow(activeTab, item);
 }
-
+ 
 /* ---------- Bulk import ---------- */
 function parseBulkLines() {
   return els['bulk-text'].value.split('\n')
     .map(l => l.replace(/^\s*\d+[\.\)]?\s*/, '').trim())
     .filter(l => l.length > 0);
 }
-
+ 
 els.startBulkInstant.addEventListener('click', () => {
   const lines = parseBulkLines();
   if (!lines.length) return;
@@ -1058,7 +1053,7 @@ els.startBulkInstant.addEventListener('click', () => {
   backfillCovers(activeTab);
   showToast('Added ' + newItems.length + ' item(s)');
 });
-
+ 
 els.startBulk.addEventListener('click', () => {
   if (listMode !== 'ranked') return;
   const lines = parseBulkLines();
@@ -1081,7 +1076,7 @@ els.startBulk.addEventListener('click', () => {
     if (confirm('This list already has ' + existing.length + ' ranked item(s). They\'ll be included in the comparisons alongside the ' + lines.length + ' new ones. Continue?')) proceed();
   } else proceed();
 });
-
+ 
 /* ---------- Comparison engines (generators) ---------- */
 function* binaryInsertGen(sortedItems, newItem) {
   let lo = 0, hi = sortedItems.length;
@@ -1092,7 +1087,7 @@ function* binaryInsertGen(sortedItems, newItem) {
   }
   return lo;
 }
-
+ 
 function* mergeGen(left, right) {
   const result = [];
   let i = 0, j = 0;
@@ -1104,7 +1099,7 @@ function* mergeGen(left, right) {
   while (j < right.length) result.push(right[j++]);
   return result;
 }
-
+ 
 function* mergeSortGen(arr) {
   if (arr.length <= 1) return arr;
   const mid = arr.length >> 1;
@@ -1112,7 +1107,7 @@ function* mergeSortGen(arr) {
   const right = yield* mergeSortGen(arr.slice(mid));
   return yield* mergeGen(left, right);
 }
-
+ 
 function startInsertFlow(tabKey, newItem) {
   const list = lists[tabKey];
   if (list.length === 0) {
@@ -1130,7 +1125,7 @@ function startInsertFlow(tabKey, newItem) {
   compEstimate = Math.max(1, Math.ceil(Math.log2(list.length + 1)));
   stepGen();
 }
-
+ 
 function stepGen(sendValue) {
   let res;
   try { res = activeGen.next(sendValue); }
@@ -1139,7 +1134,7 @@ function stepGen(sendValue) {
   compCount++;
   showModal(res.value.a, res.value.b);
 }
-
+ 
 function finishGen(value) {
   let tabKeyToBackfill = null;
   if (activeGenType === 'insert') {
@@ -1167,7 +1162,7 @@ function finishGen(value) {
   render();
   if (tabKeyToBackfill) backfillCovers(tabKeyToBackfill);
 }
-
+ 
 function showModal(a, b) {
   els.modalOptA.textContent = a.title;
   els.modalOptB.textContent = b.title;
@@ -1175,11 +1170,11 @@ function showModal(a, b) {
   els.modalOverlay.classList.add('show');
 }
 function closeModal() { els.modalOverlay.classList.remove('show'); }
-
+ 
 els.modalOptA.addEventListener('click', () => stepGen(true));
 els.modalOptB.addEventListener('click', () => stepGen(false));
 els.modalCancel.addEventListener('click', () => { activeGen = null; activeGenType = null; activeGenContext = {}; closeModal(); });
-
+ 
 /* ---------- Share ---------- */
 function buildShareLink(tabKey) {
   const items = lists[tabKey].map(it => ({ t: it.title, p: it.platform || '', y: it.year || null, c: it.cover || '', n: it.notes || '' }));
@@ -1187,7 +1182,7 @@ function buildShareLink(tabKey) {
   const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(payload))));
   return location.origin + location.pathname + '#share=' + encoded;
 }
-
+ 
 els.shareBtn.addEventListener('click', () => {
   const link = buildShareLink(activeTab);
   els.shareLinkInput.value = link;
@@ -1200,7 +1195,7 @@ els.copyShareLink.addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(els.shareLinkInput.value); showToast('Link copied'); }
   catch (e) { els.shareLinkInput.select(); showToast('Select the link above and copy manually'); }
 });
-
+ 
 function checkSharedMode() {
   const hash = location.hash;
   if (hash.startsWith('#share=')) {
@@ -1213,7 +1208,7 @@ function checkSharedMode() {
   }
   return false;
 }
-
+ 
 function renderSharedView(payload) {
   const tabDef = TABS.find(t => t.key === payload.tab) || { label: payload.tab };
   els.sharedBanner.style.display = 'flex';
@@ -1223,7 +1218,7 @@ function renderSharedView(payload) {
   els.subTabs.style.display = 'none';
   document.querySelector('.filters-toggle-row').style.display = 'none';
   els.stats.textContent = payload.items.length + ' ranked';
-
+ 
   els.list.innerHTML = '';
   if (!payload.items.length) { els.list.innerHTML = `<div class="empty"><div class="big">Nothing here</div></div>`; return; }
   payload.items.forEach((item, idx) => {
@@ -1246,9 +1241,9 @@ function renderSharedView(payload) {
     els.list.appendChild(row);
   });
 }
-
+ 
 els.exitShared.addEventListener('click', (e) => { e.preventDefault(); location.hash = ''; location.reload(); });
-
+ 
 /* ---------- Tiering ---------- */
 function tierInfo(idx) {
   if (idx === 0) return { cls: 'tier-gold', label: '🥇' };
@@ -1259,11 +1254,11 @@ function tierInfo(idx) {
   if (idx < 20) return { cls: 'tier-top20', label: String(idx + 1) };
   return { cls: '', label: String(idx + 1) };
 }
-
+ 
 /* ---------- Render ---------- */
 function renderPlatformField() { els['f-platform-field'].classList.toggle('hidden', !currentTabDef().hasPlatform); }
 function renderCoverControls() {
-  const hasKey = activeTab === 'games' ? !!(settings.sgdbKey || settings.rawgKey) : !!settings.tmdbKey;
+  const hasKey = activeTab === 'games' ? !!(settings.sgdbProxy || settings.rawgKey) : !!settings.tmdbKey;
   els.fetchCoverBtn.style.display = hasKey ? '' : 'none';
 }
 function renderStats() {
@@ -1271,13 +1266,13 @@ function renderStats() {
   const label = listMode === 'ranked' ? 'ranked' : (listMode === 'watch' ? 'on watchlist' : 'honorable mentions');
   els.stats.innerHTML = n ? `<strong>${n}</strong> ${label}` : '';
 }
-
+ 
 function itemMatchesFilters(it) {
   const tagOk = activeTagFilters.size === 0 || (it.tags || []).some(t => activeTagFilters.has(t));
   const yearOk = (!yearFilter.from || (it.year && it.year >= yearFilter.from)) && (!yearFilter.to || (it.year && it.year <= yearFilter.to));
   return tagOk && yearOk;
 }
-
+ 
 function render() {
   renderTabs();
   renderSubTabs();
@@ -1286,13 +1281,13 @@ function render() {
   renderStats();
   renderSetupBanner();
   renderFiltersToggle();
-
+ 
   const fullArr = activeArr();
   renderTagChips(fullArr);
   const filtered = fullArr.filter(itemMatchesFilters);
-
+ 
   els.list.innerHTML = '';
-
+ 
   if (!fullArr.length) {
     const label = listMode === 'ranked' ? 'Nothing ranked yet' : (listMode === 'watch' ? 'Nothing on the watchlist yet' : 'No honorable mentions yet');
     els.list.innerHTML = `<div class="empty"><div class="big">${label}</div><div>Use Manage → Add, or Bulk import, to get started.</div></div>`;
@@ -1302,9 +1297,9 @@ function render() {
     els.list.innerHTML = `<div class="empty"><div class="big">No matches</div><div>No items match the current filters.</div></div>`;
     return;
   }
-
+ 
   const isRanked = listMode === 'ranked';
-
+ 
   filtered.forEach((item) => {
     const idx = fullArr.indexOf(item);
     const row = document.createElement('div');
@@ -1312,9 +1307,9 @@ function render() {
     const metaParts = [];
     if (item.platform) metaParts.push(item.platform);
     if (item.year) metaParts.push(item.year);
-
+ 
     const rankHtml = isRanked ? (() => { const tier = tierInfo(idx); return `<div class="rank-badge ${tier.cls}">${tier.label}</div>`; })() : '';
-
+ 
     const actionsHtml = isRanked ? `
         <button class="icon-btn" data-action="up" data-id="${item.id}" ${idx === 0 ? 'disabled' : ''} title="Move up">↑</button>
         <button class="icon-btn" data-action="down" data-id="${item.id}" ${idx === fullArr.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
@@ -1328,7 +1323,7 @@ function render() {
         <button class="icon-btn" data-action="edit" data-id="${item.id}" title="Edit">Edit</button>
         <button class="icon-btn" data-action="delete" data-id="${item.id}" title="Delete">Delete</button>
       `;
-
+ 
     row.innerHTML = `
       <div class="cover-thumb">${item.cover ? `<img src="${escapeHtml(item.cover)}" alt="" onerror="this.style.display='none'">` : ''}</div>
       ${rankHtml}
@@ -1342,7 +1337,7 @@ function render() {
     els.list.appendChild(row);
   });
 }
-
+ 
 els.list.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-action]');
   if (!btn || btn.disabled) return;
@@ -1354,7 +1349,7 @@ els.list.addEventListener('click', (e) => {
   else if (action === 'delete') deleteItem(id, btn);
   else if (action === 'rankit') promoteToRanked(id);
 });
-
+ 
 // --- Init ---
 loadSettings();
 if (!checkSharedMode()) {
