@@ -219,8 +219,12 @@
     "title": "Kindergarten 2",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/913ab8bcd9c1a9e027d12d97cc387266.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "kindergarten",
+      "2d"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_f44anl",
