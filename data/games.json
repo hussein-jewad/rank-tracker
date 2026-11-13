@@ -331,8 +331,12 @@
     "title": "Call of Duty 4 Modern Warfare",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/b3049ee4f30b41fa9f41d88a0068f65c.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "call of duty",
+      "shooter"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_gg1ub6",
