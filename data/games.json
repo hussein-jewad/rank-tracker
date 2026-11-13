@@ -259,8 +259,12 @@
     "title": "Fran Bow",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/4dfc4b81e77387298bc1b6beb5cfdc10.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror",
+      "2d"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_wka8az",
