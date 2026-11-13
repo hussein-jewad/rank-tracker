@@ -210,7 +210,11 @@
     "title": "GTA 5",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/1708d3d39aa496d7afcd8aa682b5342b.png",
-    "tags": [],
+    "tags": [
+      "gta",
+      "shooter",
+      "rockstar"
+    ],
     "notes": "",
     "year": null
   },
