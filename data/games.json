@@ -138,8 +138,12 @@
     "title": "Subnautica Below Zero",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/e47883e8ec16860ea2385727a6824c28.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "subnautica",
+      "survival"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_izkkmc",
