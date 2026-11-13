@@ -154,8 +154,12 @@
     "title": "God of War",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/72d0eaa80cc3412fda4a133ca1f884e8.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "god of war",
+      "retro"
+    ],
+    "notes": "",
+    "year": 2005
   },
   {
     "id": "i_1794184953560_bkjzv7",
