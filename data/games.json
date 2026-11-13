@@ -162,8 +162,11 @@
     "title": "Breathedge",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/82f0f63f680b8d72892d2dee196402a0.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "survival"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_k8amp4",
