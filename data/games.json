@@ -227,8 +227,12 @@
     "title": "Kindergarten",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/1272816c82a870622e4162dce4e08a4a.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "kindergarten",
+      "2d"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_lzlf40",
