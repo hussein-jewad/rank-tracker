@@ -40,8 +40,13 @@
     "title": "Amnesia The Dark Descent",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/bb4d41b834d1a09bb8e0b39ad59246a6.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "frictional",
+      "horror",
+      "retro"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_46fj73",
