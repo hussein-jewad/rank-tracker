@@ -130,8 +130,12 @@
     "title": "Dead Space Remake",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/26203c6ab63ff66fef12bbc3b8dad1c0.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "dead space",
+      "horror"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_ydym3d",
