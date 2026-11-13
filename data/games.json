@@ -29,8 +29,11 @@
     "title": "Alien Isolation",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/ad8051d447566eee214f867ccff406f8.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror"
+    ],
+    "notes": "",
+    "year": 2014
   },
   {
     "id": "i_1794184953560_17k6x9",
