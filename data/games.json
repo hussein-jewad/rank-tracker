@@ -106,8 +106,12 @@
     "title": "Call of Duty: WWII",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/0a07a96284741df4a0d7db65fa72fcf6.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "call of duty",
+      "shooter"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_f4yr4n",
