@@ -384,11 +384,16 @@
   },
   {
     "id": "i_1794184953560_93dak3",
-    "title": "Silent Hill (1999)",
+    "title": "Silent Hill",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/1aed88b7fdc56b77d7971de724e7c6d0.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror",
+      "retro",
+      "silent hill"
+    ],
+    "notes": "",
+    "year": 1999
   },
   {
     "id": "i_1794184953560_oj11l7",
