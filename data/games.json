@@ -146,8 +146,12 @@
     "title": "Doki Doki Literature Club",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/66cff14a77fb713dc60adc123a8861bd.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror",
+      "2d"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_yp2nxv",
