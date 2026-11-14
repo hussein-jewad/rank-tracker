@@ -247,11 +247,14 @@
   },
   {
     "id": "i_1794184953560_ewf8bc",
-    "title": "Bioshock 2",
+    "title": "Bioshock 2 remastered",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/9c0f08094da979791e461b24cb90efa7.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "bioshock"
+    ],
+    "notes": "",
+    "year": 2016
   },
   {
     "id": "i_1794184953560_rkbx7i",
