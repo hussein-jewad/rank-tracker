@@ -311,8 +311,11 @@
     "title": "Minecraft Story Mode",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/7a42d04dbcdcccece898bfbc2bb6d326.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "choice driven"
+    ],
+    "notes": "",
+    "year": 2015
   },
   {
     "id": "i_1794184953560_vvcpsj",
