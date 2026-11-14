@@ -333,8 +333,11 @@
     "title": "The Walking Dead",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/99cc1170ddb810f704d3a308060e614a.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "choice driven"
+    ],
+    "notes": "",
+    "year": 2012
   },
   {
     "id": "i_1794184953560_u7xnez",
