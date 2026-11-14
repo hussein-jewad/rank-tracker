@@ -226,11 +226,15 @@
   },
   {
     "id": "i_1794184953560_48s5eg",
-    "title": "Call of Duty Modern Warfare 2",
+    "title": "Call of Duty Modern Warfare 2 remastered",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/cc96d0754de7d47e9a9a709eb2cd451f.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "call of duty",
+      "shooter"
+    ],
+    "notes": "",
+    "year": 2020
   },
   {
     "id": "i_1794184953560_61qsdi",
