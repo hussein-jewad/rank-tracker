@@ -262,8 +262,12 @@
     "title": "Metro Last Light",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/a241c00a03bc2e135a61c0736b520b45.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "metro",
+      "shooter"
+    ],
+    "notes": "",
+    "year": 2014
   },
   {
     "id": "i_1794184953560_9kujcf",
