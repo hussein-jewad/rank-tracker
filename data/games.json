@@ -322,8 +322,11 @@
     "title": "Slime Rancher",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/b96cec2e96704669eac3785f45f38cb7.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "cute"
+    ],
+    "notes": "",
+    "year": 2016
   },
   {
     "id": "i_1794184953560_cr2vwy",
