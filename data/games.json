@@ -385,8 +385,12 @@
     "title": "Wolfenstein The New Order",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/1c183ec2bf2e0b7cb725c5d2127d250b.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "wolfenstein",
+      "shooter"
+    ],
+    "notes": "",
+    "year": 2014
   },
   {
     "id": "i_1794184953560_bv97sh",
