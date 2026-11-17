@@ -421,8 +421,11 @@
     "title": "Undertale",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/aba1e5182d973f43f2b3fd755f8e2314.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "2d"
+    ],
+    "notes": "",
+    "year": 2015
   },
   {
     "id": "i_1794184953560_ng758j",
