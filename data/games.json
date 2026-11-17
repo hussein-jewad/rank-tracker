@@ -406,11 +406,15 @@
   },
   {
     "id": "i_1794184953560_j53ufh",
-    "title": "Metro 2033",
+    "title": "Metro 2033 redux",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/8b48b3ca4e8d5eceaae8e5864b25650f.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "metro",
+      "shooter"
+    ],
+    "notes": "",
+    "year": 2014
   },
   {
     "id": "i_1794184953560_yxrd74",
