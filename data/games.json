@@ -372,8 +372,12 @@
     "title": "Batman Arkham Knight",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/f84188cb2659a5c8c875d7f0e9fc847c.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "batman",
+      "open world"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_t9dgqy",
