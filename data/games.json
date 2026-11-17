@@ -445,8 +445,11 @@
     "title": "A Plague Tale Innocence",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/e12999c8d752abf6f612f729e4800e77.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "A Plague Tale"
+    ],
+    "notes": "",
+    "year": 2019
   },
   {
     "id": "i_1794184953560_smhmkb",
