@@ -432,8 +432,13 @@
     "title": "Metro Exodus",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/45d6b5fb5d1f53e55485b07c71470a40.jpg",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "metro",
+      "shooter",
+      "open world"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_7825k2",
