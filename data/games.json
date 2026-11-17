@@ -397,8 +397,12 @@
     "title": "Lost in Vivo",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/84a8e67cdd1efb91279b686c9720f9ca.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror",
+      "psychological"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_j53ufh",
