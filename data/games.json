@@ -607,7 +607,12 @@
     "title": "Left 4 Dead 2",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/209cc9ba9f99c6cb5b90d7587ae5c644.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "left4dead",
+      "shooter",
+      "retro"
+    ],
+    "notes": "",
+    "year": 2009
   }
 ]
