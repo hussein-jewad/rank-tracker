@@ -499,8 +499,12 @@
     "title": "Amnesia Rebirth",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/0bb71a342347eaafa25f2cdb051694c6.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "Frictional games",
+      "horror"
+    ],
+    "notes": "",
+    "year": 2020
   },
   {
     "id": "i_1794184953560_dub66g",
