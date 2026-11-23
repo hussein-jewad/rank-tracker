@@ -571,8 +571,12 @@
     "title": "Kindergarten 3",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/646866ac01b9c085d6566d1bf0d2d24e.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "2d",
+      "kindergarten"
+    ],
+    "notes": "",
+    "year": 2025
   },
   {
     "id": "i_1794184953560_dmwdfd",
