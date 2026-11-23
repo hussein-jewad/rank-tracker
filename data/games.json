@@ -560,8 +560,11 @@
     "title": "Detroit Become Human",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/2078750ea356ba9fd472655dec36c068.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "choice driven"
+    ],
+    "notes": "",
+    "year": 2018
   },
   {
     "id": "i_1794184953560_83umcv",
