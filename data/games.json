@@ -583,8 +583,12 @@
     "title": "Just Cause 4",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/f87056faf9477c07421e2502f7a0b634.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "shooter",
+      "just cause"
+    ],
+    "notes": "",
+    "year": 2018
   },
   {
     "id": "i_1794184953560_wpbi1j",
