@@ -595,8 +595,11 @@
     "title": "Amnesia Machine for Pigs",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/1074afbd8b5b7eb6576c26ecbf6f7e17.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "frictional"
+    ],
+    "notes": "",
+    "year": null
   },
   {
     "id": "i_1794184953560_yfop9s",
