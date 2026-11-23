@@ -511,8 +511,12 @@
     "title": "Close to the Sun",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/3e76dd296c523b8286c4cf1d5563e03d.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "horror",
+      "potential"
+    ],
+    "notes": "",
+    "year": 2019
   },
   {
     "id": "i_1794184953560_gt6b0u",
