@@ -468,8 +468,11 @@
     "title": "Slime Rancher 2",
     "platform": "",
     "cover": "https://cdn2.steamgriddb.com/grid/8aaded6542bda3dfd70ec344368ed050.png",
-    "tags": [],
-    "notes": ""
+    "tags": [
+      "cute"
+    ],
+    "notes": "",
+    "year": 2022
   },
   {
     "id": "i_1794184953560_bclabn",
